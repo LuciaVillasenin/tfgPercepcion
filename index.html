@@ -15,7 +15,8 @@
             color: #333;
         }
 
-        h1, h2 {
+        h1,
+        h2 {
             color: #0056b3;
             text-align: center;
         }
@@ -91,10 +92,21 @@
             padding: 15px 30px;
             font-size: 1.2em;
             background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
 
         #cuestionario button[type="submit"]:hover {
             background-color: #0056b3;
+        }
+
+        .lineas-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
         }
     </style>
     <link rel="stylesheet" href="style.css">
@@ -106,18 +118,17 @@
     <section>
         <h2>Bienvenido/a</h2>
         <p>
-            Este cuestionario forma parte de mi Trabajo de Fin de grado que consiste en un estudio sobre percepción auditiva y visual. El objetivo es evaluar tu
-            capacidad para discriminar estímulos sonoros y visuales. Este cuestionario es totalmente
-            anónimo.
+            Este cuestionario forma parte de un estudio sobre percepción auditiva y visual. El objetivo es evaluar tu
+            capacidad para discriminar entre estímulos sonoros y visuales simples. Este cuestionario es totalmente
+            anónimo y tus datos serán tratados de forma confidencial.
         </p>
         <p>
             Para asegurar la validez de los resultados, es <strong>muy importante que realices este cuestionario
-                COMPLETO una sola vez</strong>. Repetir el cuestionario o hacerlo de forma incompleta afectará
-            negativamente a la calidad de los datos y, por lo tanto, a la validez de mi estudio.
-            Se recomienda el uso de auriculares para su realización. Puedes reproducir los sonidos todas las veces que lo necesites.
+                COMPLETO una sola vez</strong>. Repetir el cuestionario o hacerlo de forma incompleta puede afectar
+            negativamente la calidad de los datos y, por lo tanto, la validez del estudio.
         </p>
         <p>
-            Por favor, responde a todas las preguntas con atención y honestidad. ¡Muchas gracias por tu ayuda!
+            Por favor, responde a todas las preguntas con atención y honestidad. ¡Gracias por tu colaboración!
         </p>
     </section>
 
@@ -188,52 +199,138 @@
 
     <script>
         // Parte 1: Pruebas de tonos
-        const pruebasTonos = [
-            { A: 700, B: 700 },
-            { A: 500, B: 525 },
-            { A: 550, B: 600 },
-            { A: 600, B: 625 },
-            { A: 700, B: 750 },
-            { A: 450, B: 500 },
-            { A: 700, B: 700 },
-            { A: 500, B: 550 },
-            { A: 600, B: 650 },
-            { A: 550, B: 575 }
+        const pruebasTonos = [{
+                A: 700,
+                B: 700
+            },
+            {
+                A: 500,
+                B: 525
+            },
+            {
+                A: 550,
+                B: 600
+            },
+            {
+                A: 600,
+                B: 625
+            },
+            {
+                A: 700,
+                B: 750
+            },
+            {
+                A: 450,
+                B: 500
+            },
+            {
+                A: 700,
+                B: 700
+            },
+            {
+                A: 500,
+                B: 550
+            },
+            {
+                A: 600,
+                B: 650
+            },
+            {
+                A: 550,
+                B: 575
+            }
         ];
 
         // Parte 2: Pruebas de secuencias
-        const pruebasSecuencias = [
-            { A: [400, 600, 500], B: [350, 450, 400, 500] },
-            { A: [300, 500, 400, 600], B: [250, 350, 450, 400, 500] },
-            { A: [700, 800, 750], B: [500, 600, 700, 450] },
-            { A: [200, 300, 400, 500, 600], B: [180, 280, 380, 480, 580, 680] },
-            { A: [450, 550, 600, 700], B: [800, 850, 750] },
-            { A: [500, 600, 700], B: [450, 550, 650, 600] },
-            { A: [300, 400, 500, 600, 700], B: [250, 350, 450, 500, 650, 700] },
-            { A: [600, 700, 800, 900], B: [550, 650, 750, 850, 950] },
-            { A: [400, 500, 600], B: [350, 450, 500, 550] },
-            { A: [450, 550, 650, 750], B: [600, 700, 800] }
+        const pruebasSecuencias = [{
+                A: [400, 600, 500],
+                B: [350, 450, 400, 500]
+            },
+            {
+                A: [300, 500, 400, 600],
+                B: [250, 350, 450, 400, 500]
+            },
+            {
+                A: [700, 800, 750],
+                B: [500, 600, 700, 450]
+            },
+            {
+                A: [200, 300, 400, 500, 600],
+                B: [180, 280, 380, 480, 580, 680]
+            },
+            {
+                A: [450, 550, 600, 700],
+                B: [800, 850, 750]
+            },
+            {
+                A: [500, 600, 700],
+                B: [450, 550, 650, 600]
+            },
+            {
+                A: [300, 400, 500, 600, 700],
+                B: [250, 350, 450, 500, 650, 700]
+            },
+            {
+                A: [600, 700, 800, 900],
+                B: [550, 650, 750, 850, 950]
+            },
+            {
+                A: [400, 500, 600],
+                B: [350, 450, 500, 550]
+            },
+            {
+                A: [450, 550, 650, 750],
+                B: [600, 700, 800]
+            }
         ];
 
         // Parte 3: Pruebas de la línea más larga
-        const pruebasLineas = [
-            { A: 200, B: 250 },
-            { A: 150, B: 150 },
-            { A: 100, B: 80 },
-            { A: 220, B: 180 },
-            { A: 120, B: 120 }
+        const pruebasLineas = [{
+                A: 200,
+                B: 250
+            },
+            {
+                A: 150,
+                B: 150
+            },
+            {
+                A: 100,
+                B: 80
+            },
+            {
+                A: 220,
+                B: 180
+            },
+            {
+                A: 120,
+                B: 120
+            }
         ];
 
         // Parte 4: Pruebas de la suma de líneas más larga
-        const pruebasSumas = [
-            { A: [50, 100], B: [40, 80, 50] },
-            { A: [80, 120], B: [70, 90, 60] },
-            { A: [100, 120, 80], B: [50, 60, 90, 70] },
-            { A: [30, 50], B: [60, 80, 40] },
-            { A: [70, 70, 70], B: [50, 50, 50, 50] }
+        const pruebasSumas = [{
+                A: [50, 100],
+                B: [40, 80, 50]
+            },
+            {
+                A: [80, 120],
+                B: [70, 90, 60]
+            },
+            {
+                A: [100, 120, 80],
+                B: [50, 60, 90, 70]
+            },
+            {
+                A: [30, 50],
+                B: [60, 80, 40]
+            },
+            {
+                A: [70, 70, 70],
+                B: [50, 50, 50, 50]
+            }
         ];
 
-        let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let audioCtx = new(window.AudioContext || window.webkitAudioContext)();
         let playing = false; // Estado del audio
         let formSubmitted = false; // Control para evitar envíos múltiples
 
@@ -313,11 +410,74 @@
             const div = document.createElement("fieldset");
             div.innerHTML = `
                 <legend><strong>Prueba ${index + 1}</strong></legend>
-                <div class="linea-container">
-                    <div class="linea" style="width: ${largoA}px; transform: rotate(${anguloA}deg);"></div>
-                    <span style="position: absolute; left: ${largoA + 5}px;">A</span>
+                <div class="lineas-container">
+                  <div class="linea-container">
+                      <div class="linea" style="width: ${largoA}px; transform: rotate(${anguloA}deg);"></div>
+                      <span style="position: absolute; left: ${largoA + 5}px;">A</span>
+                  </div>
+                  <div class="linea-container">
+                      <div class="linea" style="width: ${largoB}px; transform: rotate(${anguloB}deg);"></div>
+                      <span style="position: absolute; left: ${largoB + 5}px;">B</span>
+                  </div>
                 </div>
-                <div class="linea-container">
-                    <div class="linea" style="width: ${largoB}px; transform: rotate(${anguloB}deg);"></div>
-                    <span style="position: absolute; left: ${largoB + 5}px;">B</span>
+                <br>
+                <label><input type="radio" name="pruebaLinea${index}" value="A" required> A es más larga</label><br>
+                <label><input type="radio" name="pruebaLinea${index}" value="B"> B es más larga</label><br>
+                <label><input type="radio" name="pruebaLinea${index}" value="Iguales"> Son iguales</label>
+                <div class="feedback" id="feedbackLinea${index}"></div>
+            `;
+            document.getElementById("preguntasLineas").appendChild(div);
+        }
+
+        // Crear preguntas de la suma de líneas más largas
+        function crearPreguntaSuma(index, sumA, sumB) {
+            const anguloA = Math.random() * 45 - 22.5;
+            const anguloB = Math.random() * 45 - 22.5;
+
+            const div = document.createElement("fieldset");
+            div.innerHTML = `
+                <legend><strong>Prueba ${index + 1}</strong></legend>
+                <div class="lineas-container">
+                  <div class="linea-container">
+                      ${sumA.map((largo, i) => `<div class="linea" style="width: ${largo}px; transform: rotate(${anguloA}deg) translateY(${i * 10}px);"></div>`).join("")}
+                      <span style="position: absolute; left: ${Math.max(...sumA) + 5}px;">A</span>
+                  </div>
+                  <div class="linea-container">
+                      ${sumB.map((largo, i) => `<div class="linea" style="width: ${largo}px; transform: rotate(${anguloB}deg) translateY(${i * 10}px);"></div>`).join("")}
+                      <span style="position: absolute; left: ${Math.max(...sumB) + 5}px;">B</span>
+                  </div>
                 </div>
+                <br>
+                <label><input type="radio" name="pruebaSuma${index}" value="A" required> A es más largo</label><br>
+                <label><input type="radio" name="pruebaSuma${index}" value="B"> B es más largo</label><br>
+                <label><input type="radio" name="pruebaSuma${index}" value="Iguales"> Son iguales</label>
+                <div class="feedback" id="feedbackSuma${index}"></div>
+            `;
+            document.getElementById("preguntasSumas").appendChild(div);
+        }
+
+        // Generar todas las preguntas
+        pruebasTonos.forEach((p, index) => crearPregunta(index, p.A, p.B));
+        pruebasSecuencias.forEach((p, index) => crearPreguntaSecuencia(index, p.A, p.B));
+        pruebasLineas.forEach((p, index) => crearPreguntaLinea(index, p.A, p.B));
+        pruebasSumas.forEach((p, index) => crearPreguntaSuma(index, p.A, p.B));
+
+        // Función para prevenir envíos múltiples
+        document.getElementById("cuestionario").addEventListener("submit", function (event) {
+            if (formSubmitted) {
+                event.preventDefault();
+                alert("Ya has enviado este formulario. Gracias por participar.");
+            } else {
+                formSubmitted = true;
+            }
+        });
+    </script>
+    <script>
+        const timestamp = new Date().getTime();
+        const styleSheet = document.querySelector('link[rel="stylesheet"]');
+        styleSheet.href = styleSheet.href + '?v=' + timestamp;
+    </script>
+    <script src="script.js"></script>
+</body>
+
+</html>
