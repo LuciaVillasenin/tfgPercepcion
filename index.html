@@ -6,24 +6,51 @@
     <title>Cuestionario de Discriminación Auditiva y Visual</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             max-width: 600px;
-            margin: auto;
+            margin: 20px auto;
             padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1, h2 {
+            color: #0056b3;
+            text-align: center;
         }
         fieldset {
-            margin-bottom: 15px;
-            padding: 10px;
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        legend {
+            font-weight: bold;
+            color: #0056b3;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
         }
         button {
             margin: 5px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
         }
         .linea-container {
             height: 100px;
-            width: 300px; /* Ancho máximo para el contenedor */
+            width: 300px;
             margin-bottom: 20px;
             position: relative;
-            overflow: hidden; /* Oculta cualquier contenido que sobresalga */
+            overflow: hidden;
         }
         .linea {
             display: inline-block;
@@ -34,9 +61,26 @@
             left: 0;
             transform-origin: left center;
         }
+        label {
+            margin-right: 15px;
+        }
+        input[type="radio"] {
+            margin-right: 5px;
+        }
         .feedback {
             margin-top: 10px;
             color: green;
+            font-weight: bold;
+        }
+        #cuestionario button[type="submit"] {
+            display: block;
+            margin: 20px auto;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background-color: #28a745;
+        }
+        #cuestionario button[type="submit"]:hover {
+            background-color: #1e7e34;
         }
     </style>
     <link rel="stylesheet" href="style.css">
@@ -102,7 +146,12 @@
             { A: 150, B: 150 },
             { A: 100, B: 80 },
             { A: 220, B: 180 },
-            { A: 120, B: 120 }
+            { A: 120, B: 120 },
+            { A: 180, B: 200 }, // Nueva prueba
+            { A: 250, B: 220 }, // Nueva prueba
+            { A: 90, B: 110 },  // Nueva prueba
+            { A: 160, B: 160 }, // Nueva prueba
+            { A: 210, B: 190 }  // Nueva prueba
         ];
 
         // Parte 4: Pruebas de la suma de líneas más larga
@@ -111,7 +160,12 @@
             { A: [80, 120], B: [70, 90, 60] },
             { A: [100, 120, 80], B: [50, 60, 90, 70] },
             { A: [30, 50], B: [60, 80, 40] },
-            { A: [70, 70, 70], B: [50, 50, 50, 50] }
+            { A: [70, 70, 70], B: [50, 50, 50, 50] },
+            { A: [60, 90], B: [50, 70, 30] }, // Nueva prueba
+            { A: [40, 60, 50], B: [70, 30, 40] }, // Nueva prueba
+            { A: [80, 80], B: [60, 50, 30] },  // Nueva prueba
+            { A: [50, 40, 30], B: [60, 60] },   // Nueva prueba
+            { A: [90, 50], B: [40, 40, 40] }    // Nueva prueba
         ];
 
         let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
