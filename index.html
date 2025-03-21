@@ -54,8 +54,169 @@
         <button type="submit">Enviar Respuestas</button>
     </form>
 
-    <!-- Aquí es donde incluimos el parámetro de tiempo para evitar el caché -->
-    <script src="script.js?v=<?= time() ?>"></script>
-    
+   <script src="script.js?v=<?= time() ?>">
+        // Parte 1: Pruebas de tonos
+        const pruebasTonos = [
+            { A: 700, B: 700 },
+            { A: 500, B: 525 },
+            { A: 550, B: 600 },
+            { A: 600, B: 625 },
+            { A: 700, B: 750 },
+            { A: 450, B: 500 },
+            { A: 700, B: 700 },
+            { A: 500, B: 550 },
+            { A: 600, B: 650 },
+            { A: 550, B: 575 }
+        ];
+
+        // Parte 2: Pruebas de secuencias
+        const pruebasSecuencias = [
+            { A: [400, 600, 500], B: [350, 450, 400, 500] },
+            { A: [300, 500, 400, 600], B: [250, 350, 450, 400, 500] },
+            { A: [700, 800, 750], B: [500, 600, 700, 450] },
+            { A: [200, 300, 400, 500, 600], B: [180, 280, 380, 480, 580, 680] },
+            { A: [450, 550, 600, 700], B: [800, 850, 750] },
+            { A: [500, 600, 700], B: [450, 550, 650, 600] },
+            { A: [300, 400, 500, 600, 700], B: [250, 350, 450, 500, 650, 700] },
+            { A: [600, 700, 800, 900], B: [550, 650, 750, 850, 950] },
+            { A: [400, 500, 600], B: [350, 450, 500, 550] },
+            { A: [450, 550, 650, 750], B: [600, 700, 800] }
+        ];
+
+        // Parte 3: Pruebas de la línea más larga
+        const pruebasLineas = [
+            { A: 200, B: 250 },
+            { A: 350, B: 350 },
+            { A: 450, B: 400 },
+            { A: 600, B: 550 },
+            { A: 500, B: 500 }
+        ];
+
+        // Parte 4: Pruebas de la suma de líneas más larga
+        const pruebasSumas = [
+            { A: [200, 300], B: [150, 200, 250] },
+            { A: [400, 600], B: [350, 450, 300] },
+            { A: [500, 600, 700], B: [200, 300, 450, 500] },
+            { A: [150, 200], B: [250, 350, 150] },
+            { A: [300, 300, 300], B: [200, 200, 200, 200] }
+        ];
+
+        let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let playing = false; // Estado del audio
+
+        function generarSonido(duracion) {
+            if (playing) return; // Evita superposición
+
+            playing = true;
+            let osc = audioCtx.createOscillator();
+            osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+            osc.type = "sine";
+            osc.connect(audioCtx.destination);
+            osc.start();
+
+            setTimeout(() => {
+                osc.stop();
+                playing = false;
+            }, duracion);
+        }
+
+        function generarSecuencia(tonos) {
+            if (playing) return;
+
+            playing = true;
+            let startTime = audioCtx.currentTime;
+
+            tonos.forEach((duracion, index) => {
+                let osc = audioCtx.createOscillator();
+                osc.frequency.setValueAtTime(440, startTime + index * (duracion / 1000));
+                osc.type = "sine";
+                osc.connect(audioCtx.destination);
+                osc.start(startTime + index * (duracion / 1000));
+                osc.stop(startTime + index * (duracion / 1000) + duracion / 1000);
+            });
+
+            setTimeout(() => {
+                playing = false;
+            }, tonos.reduce((a, b) => a + b, 0));
+        }
+
+        // Crear preguntas de tonos
+        function crearPregunta(index, tonoA, tonoB) {
+            const div = document.createElement("fieldset");
+            div.innerHTML = `
+                <legend><strong>Prueba ${index + 1}</strong></legend>
+                <button type="button" onclick="generarSonido(${tonoA})">Reproducir Sonido A</button>
+                <button type="button" onclick="generarSonido(${tonoB})">Reproducir Sonido B</button>
+                <br>
+                <label><input type="radio" name="prueba${index}" value="A" required> A es más largo</label><br>
+                <label><input type="radio" name="prueba${index}" value="B"> B es más largo</label><br>
+                <label><input type="radio" name="prueba${index}" value="Iguales"> Son iguales</label>
+            `;
+            document.getElementById("preguntas").appendChild(div);
+        }
+
+        // Crear preguntas de secuencias
+        function crearPreguntaSecuencia(index, secuenciaA, secuenciaB) {
+            const div = document.createElement("fieldset");
+            div.innerHTML = `
+                <legend><strong>Prueba ${index + 1}</strong></legend>
+                <button type="button" onclick="generarSecuencia([${secuenciaA}])">Reproducir Secuencia A</button>
+                <button type="button" onclick="generarSecuencia([${secuenciaB}])">Reproducir Secuencia B</button>
+                <br>
+                <label><input type="radio" name="pruebaSecuencia${index}" value="A" required> A es más larga</label><br>
+                <label><input type="radio" name="pruebaSecuencia${index}" value="B"> B es más larga</label><br>
+                <label><input type="radio" name="pruebaSecuencia${index}" value="Iguales"> Son iguales</label>
+            `;
+            document.getElementById("preguntasSecuencias").appendChild(div);
+        }
+
+        // Crear preguntas de líneas más largas
+        function crearPreguntaLinea(index, largoA, largoB) {
+            const div = document.createElement("fieldset");
+            div.innerHTML = `
+                <legend><strong>Prueba ${index + 1}</strong></legend>
+                <div class="linea-container">
+                    <div class="linea" style="width: ${largoA}px;"></div>
+                    <span>A</span>
+                </div>
+                <div class="linea-container">
+                    <div class="linea" style="width: ${largoB}px;"></div>
+                    <span>B</span>
+                </div>
+                <br>
+                <label><input type="radio" name="pruebaLinea${index}" value="A" required> A es más larga</label><br>
+                <label><input type="radio" name="pruebaLinea${index}" value="B"> B es más larga</label><br>
+                <label><input type="radio" name="pruebaLinea${index}" value="Iguales"> Son iguales</label>
+            `;
+            document.getElementById("preguntasLineas").appendChild(div);
+        }
+
+        // Crear preguntas de suma de líneas más largas
+        function crearPreguntaSuma(index, sumaA, sumaB) {
+            const div = document.createElement("fieldset");
+            div.innerHTML = `
+                <legend><strong>Prueba ${index + 1}</strong></legend>
+                <div class="linea-container">
+                    ${sumaA.map(l => `<div class="linea" style="width: ${l}px;"></div>`).join('')}
+                    <span>A</span>
+                </div>
+                <div class="linea-container">
+                    ${sumaB.map(l => `<div class="linea" style="width: ${l}px;"></div>`).join('')}
+                    <span>B</span>
+                </div>
+                <br>
+                <label><input type="radio" name="pruebaSuma${index}" value="A" required> A es más larga</label><br>
+                <label><input type="radio" name="pruebaSuma${index}" value="B"> B es más larga</label><br>
+                <label><input type="radio" name="pruebaSuma${index}" value="Iguales"> Son iguales</label>
+            `;
+            document.getElementById("preguntasSumas").appendChild(div);
+        }
+
+        // Generar preguntas
+        pruebasTonos.forEach((p, i) => crearPregunta(i, p.A, p.B));
+        pruebasSecuencias.forEach((p, i) => crearPreguntaSecuencia(i, p.A, p.B));
+        pruebasLineas.forEach((p, i) => crearPreguntaLinea(i, p.A, p.B));
+        pruebasSumas.forEach((p, i) => crearPreguntaSuma(i, p.A, p.B));
+    </script>
 </body>
 </html>
