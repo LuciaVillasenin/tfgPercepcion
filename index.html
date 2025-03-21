@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,18 +7,16 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 800px;
+            max-width: 600px;
             margin: 20px auto;
             padding: 20px;
             background-color: #f4f4f4;
             color: #333;
         }
-
         h1, h2 {
             color: #0056b3;
             text-align: center;
         }
-
         fieldset {
             margin-bottom: 20px;
             padding: 20px;
@@ -27,7 +24,6 @@
             border-radius: 5px;
             background-color: #fff;
         }
-
         legend {
             font-weight: bold;
             color: #0056b3;
@@ -36,7 +32,6 @@
             border-radius: 5px;
             background-color: #f9f9f9;
         }
-
         button {
             margin: 5px;
             padding: 10px 15px;
@@ -47,20 +42,16 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-
         button:hover {
             background-color: #0056b3;
         }
-
         .linea-container {
-            display: inline-block;
             height: 100px;
             width: 300px;
-            margin: 0 10px 20px 0;
+            margin-bottom: 20px;
             position: relative;
             overflow: hidden;
         }
-
         .linea {
             display: inline-block;
             height: 2px;
@@ -70,118 +61,52 @@
             left: 0;
             transform-origin: left center;
         }
-
         label {
             margin-right: 15px;
         }
-
         input[type="radio"] {
             margin-right: 5px;
         }
-
         .feedback {
             margin-top: 10px;
             color: green;
             font-weight: bold;
         }
-
         #cuestionario button[type="submit"] {
             display: block;
             margin: 20px auto;
             padding: 15px 30px;
             font-size: 1.2em;
-            background-color: #007bff;
+            background-color: #28a745;
         }
-
         #cuestionario button[type="submit"]:hover {
-            background-color: #0056b3;
+            background-color: #1e7e34;
         }
     </style>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <h1>Cuestionario de Discriminación Auditiva y Visual</h1>
 
-    <section>
-        <h2>Bienvenido/a</h2>
-        <p>
-            Este cuestionario forma parte de mi Trabajo de Fin de grado que consiste en un estudio sobre percepción auditiva y visual. El objetivo es evaluar tu
-            capacidad para discriminar estímulos sonoros y visuales. Este cuestionario es totalmente
-            anónimo.
-        </p>
-        <p>
-            Para asegurar la validez de los resultados, es <strong>muy importante que realices este cuestionario
-                COMPLETO una sola vez</strong>. Repetir el cuestionario o hacerlo de forma incompleta afectará
-            negativamente a la calidad de los datos y, por lo tanto, a la validez de mi estudio.
-            Se recomienda el uso de auriculares para su realización. Puedes reproducir los sonidos todas las veces que lo necesites.
-        </p>
-        <p>
-            Por favor, responde a todas las preguntas con atención y honestidad. ¡Muchas gracias por tu ayuda!
-        </p>
-    </section>
-
+    <!-- Parte 1: Discriminación Auditiva -->
+    <p><strong>Parte 1:</strong> En cada prueba, escucha los sonidos A y B y selecciona cuál es más largo o si son iguales.</p>
     <form id="cuestionario" action="https://formspree.io/f/mnnpnvyb" method="POST">
-
-        <fieldset>
-            <legend>Información Demográfica</legend>
-
-            <label for="edad">Edad:</label>
-            <input type="number" id="edad" name="edad" min="18" max="100" required><br><br>
-
-            <label for="genero">Género:</label>
-            <select id="genero" name="genero" required>
-                <option value="">Selecciona</option>
-                <option value="masculino">Masculino</option>
-                <option value="femenino">Femenino</option>
-                <option value="otro">Otro</option>
-            </select><br><br>
-
-            <label for="estudios">Nivel de Estudios:</label>
-            <select id="estudios" name="estudios" required>
-                <option value="">Selecciona</option>
-                <option value="sin_estudios">Sin Estudios</option>
-                <option value="primaria">Primaria</option>
-                <option value="secundaria">Secundaria</option>
-                <option value="universitario">Universitario</option>
-                <option value="postgrado">Postgrado</option>
-            </select><br><br>
-
-            <label for="conocimientos_musicales">¿Tienes conocimientos musicales?</label>
-            <select id="conocimientos_musicales" name="conocimientos_musicales" required>
-                <option value="">Selecciona</option>
-                <option value="si">Sí</option>
-                <option value="no">No</option>
-            </select><br><br>
-        </fieldset>
-
-        <!-- Parte 1: Discriminación Auditiva -->
-        <fieldset>
-            <legend>Parte 1: Discriminación Auditiva</legend>
-            <p>En cada prueba, escucha los sonidos A y B y selecciona cuál es más largo o si son iguales.</p>
-            <div id="preguntas"></div>
-        </fieldset>
+        <div id="preguntas"></div>
 
         <!-- Parte 2: Discriminación de Secuencias -->
-        <fieldset>
-            <legend>Parte 2: Discriminación de Secuencias</legend>
-            <p>Escucha cada secuencia de sonidos y selecciona cuál es más larga.</p>
-            <div id="preguntasSecuencias"></div>
-        </fieldset>
+        <h2>Parte 2: Discriminación de Secuencias</h2>
+        <p>Escucha cada secuencia de sonidos y selecciona cuál es más larga.</p>
+        <div id="preguntasSecuencias"></div>
 
         <!-- Parte 3: Discriminación Visual de la Línea Más Larga -->
-        <fieldset>
-            <legend>Parte 3: Discriminación Visual de la Línea Más Larga</legend>
-            <p>Selecciona cuál de las líneas es la más larga o si son iguales.</p>
-            <div id="preguntasLineas"></div>
-        </fieldset>
+        <h2>Parte 3: Discriminación de la Línea Más Larga</h2>
+        <p>Selecciona cuál de las líneas es la más larga o si son iguales.</p>
+        <div id="preguntasLineas"></div>
 
         <!-- Parte 4: Discriminación de la Suma de Líneas Más Larga -->
-        <fieldset>
-            <legend>Parte 4: Discriminación de la Suma de Líneas Más Larga</legend>
-            <p>Selecciona cuál es la suma de líneas más larga o si son iguales.</p>
-            <div id="preguntasSumas"></div>
-        </fieldset>
+        <h2>Parte 4: Discriminación de la Suma de Líneas Más Larga</h2>
+        <p>Selecciona cuál es la suma de líneas más larga o si son iguales.</p>
+        <div id="preguntasSumas"></div>
 
         <button type="submit">Enviar Respuestas</button>
     </form>
@@ -221,7 +146,12 @@
             { A: 150, B: 150 },
             { A: 100, B: 80 },
             { A: 220, B: 180 },
-            { A: 120, B: 120 }
+            { A: 120, B: 120 },
+            { A: 180, B: 200 }, // Nueva prueba
+            { A: 250, B: 220 }, // Nueva prueba
+            { A: 90, B: 110 },  // Nueva prueba
+            { A: 160, B: 160 }, // Nueva prueba
+            { A: 210, B: 190 }  // Nueva prueba
         ];
 
         // Parte 4: Pruebas de la suma de líneas más larga
@@ -230,12 +160,16 @@
             { A: [80, 120], B: [70, 90, 60] },
             { A: [100, 120, 80], B: [50, 60, 90, 70] },
             { A: [30, 50], B: [60, 80, 40] },
-            { A: [70, 70, 70], B: [50, 50, 50, 50] }
+            { A: [70, 70, 70], B: [50, 50, 50, 50] },
+            { A: [60, 90], B: [50, 70, 30] }, // Nueva prueba
+            { A: [40, 60, 50], B: [70, 30, 40] }, // Nueva prueba
+            { A: [80, 80], B: [60, 50, 30] },  // Nueva prueba
+            { A: [50, 40, 30], B: [60, 60] },   // Nueva prueba
+            { A: [90, 50], B: [40, 40, 40] }    // Nueva prueba
         ];
 
         let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         let playing = false; // Estado del audio
-        let formSubmitted = false; // Control para evitar envíos múltiples
 
         function generarSonido(duracion) {
             if (playing) return; // Evita superposición
@@ -321,3 +255,51 @@
                     <div class="linea" style="width: ${largoB}px; transform: rotate(${anguloB}deg);"></div>
                     <span style="position: absolute; left: ${largoB + 5}px;">B</span>
                 </div>
+                <br>
+                <label><input type="radio" name="pruebaLinea${index}" value="A" required> A es más larga</label><br>
+                <label><input type="radio" name="pruebaLinea${index}" value="B"> B es más larga</label><br>
+                <label><input type="radio" name="pruebaLinea${index}" value="Iguales"> Son iguales</label>
+                <div class="feedback" id="feedbackLinea${index}"></div>
+            `;
+            document.getElementById("preguntasLineas").appendChild(div);
+        }
+
+        // Crear preguntas de la suma de líneas más largas
+        function crearPreguntaSuma(index, sumA, sumB) {
+            const anguloA = Math.random() * 45 - 22.5;
+            const anguloB = Math.random() * 45 - 22.5;
+
+            const div = document.createElement("fieldset");
+            div.innerHTML = `
+                <legend><strong>Prueba ${index + 1}</strong></legend>
+                <div class="linea-container">
+                    ${sumA.map((largo, i) => `<div class="linea" style="width: ${largo}px; transform: rotate(${anguloA}deg) translateY(${i * 10}px);"></div>`).join("")}
+                    <span style="position: absolute; left: ${Math.max(...sumA) + 5}px;">A</span>
+                </div>
+                <div class="linea-container">
+                    ${sumB.map((largo, i) => `<div class="linea" style="width: ${largo}px; transform: rotate(${anguloB}deg) translateY(${i * 10}px);"></div>`).join("")}
+                    <span style="position: absolute; left: ${Math.max(...sumB) + 5}px;">B</span>
+                </div>
+                <br>
+                <label><input type="radio" name="pruebaSuma${index}" value="A" required> A es más largo</label><br>
+                <label><input type="radio" name="pruebaSuma${index}" value="B"> B es más largo</label><br>
+                <label><input type="radio" name="pruebaSuma${index}" value="Iguales"> Son iguales</label>
+                <div class="feedback" id="feedbackSuma${index}"></div>
+            `;
+            document.getElementById("preguntasSumas").appendChild(div);
+        }
+
+        // Generar todas las preguntas
+        pruebasTonos.forEach((p, index) => crearPregunta(index, p.A, p.B));
+        pruebasSecuencias.forEach((p, index) => crearPreguntaSecuencia(index, p.A, p.B));
+        pruebasLineas.forEach((p, index) => crearPreguntaLinea(index, p.A, p.B));
+        pruebasSumas.forEach((p, index) => crearPreguntaSuma(index, p.A, p.B));
+    </script>
+    <script>
+        const timestamp = new Date().getTime();
+        const styleSheet = document.querySelector('link[rel="stylesheet"]');
+        styleSheet.href = styleSheet.href + '?v=' + timestamp;
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
