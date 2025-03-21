@@ -20,8 +20,10 @@
         }
         .linea-container {
             height: 100px;
+            width: 300px; /* Ancho máximo para el contenedor */
             margin-bottom: 20px;
             position: relative;
+            overflow: hidden; /* Oculta cualquier contenido que sobresalga */
         }
         .linea {
             display: inline-block;
@@ -29,6 +31,7 @@
             background-color: #000;
             position: absolute;
             top: 50%;
+            left: 0;
             transform-origin: left center;
         }
         .feedback {
@@ -36,6 +39,7 @@
             color: green;
         }
     </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Cuestionario de Discriminación Auditiva y Visual</h1>
@@ -63,7 +67,7 @@
         <button type="submit">Enviar Respuestas</button>
     </form>
 
-   <script>
+    <script>
         // Parte 1: Pruebas de tonos
         const pruebasTonos = [
             { A: 700, B: 700 },
@@ -95,19 +99,19 @@
         // Parte 3: Pruebas de la línea más larga
         const pruebasLineas = [
             { A: 200, B: 250 },
-            { A: 350, B: 350 },
-            { A: 450, B: 400 },
-            { A: 600, B: 550 },
-            { A: 500, B: 500 }
+            { A: 150, B: 150 },
+            { A: 100, B: 80 },
+            { A: 220, B: 180 },
+            { A: 120, B: 120 }
         ];
 
         // Parte 4: Pruebas de la suma de líneas más larga
         const pruebasSumas = [
-            { A: [200, 300], B: [150, 200, 250] },
-            { A: [400, 600], B: [350, 450, 300] },
-            { A: [500, 600, 700], B: [200, 300, 450, 500] },
-            { A: [150, 200], B: [250, 350, 150] },
-            { A: [300, 300, 300], B: [200, 200, 200, 200] }
+            { A: [50, 100], B: [40, 80, 50] },
+            { A: [80, 120], B: [70, 90, 60] },
+            { A: [100, 120, 80], B: [50, 60, 90, 70] },
+            { A: [30, 50], B: [60, 80, 40] },
+            { A: [70, 70, 70], B: [50, 50, 50, 50] }
         ];
 
         let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -237,5 +241,11 @@
         pruebasLineas.forEach((p, index) => crearPreguntaLinea(index, p.A, p.B));
         pruebasSumas.forEach((p, index) => crearPreguntaSuma(index, p.A, p.B));
     </script>
+    <script>
+        const timestamp = new Date().getTime();
+        const styleSheet = document.querySelector('link[rel="stylesheet"]');
+        styleSheet.href = styleSheet.href + '?v=' + timestamp;
+    </script>
+    <script src="script.js"></script>
 </body>
 </html>
