@@ -26,6 +26,10 @@
         .linea-container {
             margin-bottom: 10px;
         }
+        .feedback {
+            margin-top: 10px;
+            color: green;
+        }
     </style>
 </head>
 <body>
@@ -54,7 +58,7 @@
         <button type="submit">Enviar Respuestas</button>
     </form>
 
-   <script src="script.js?v=<?= time() ?>">
+   <script>
         // Parte 1: Pruebas de tonos
         const pruebasTonos = [
             { A: 700, B: 700 },
@@ -151,6 +155,7 @@
                 <label><input type="radio" name="prueba${index}" value="A" required> A es más largo</label><br>
                 <label><input type="radio" name="prueba${index}" value="B"> B es más largo</label><br>
                 <label><input type="radio" name="prueba${index}" value="Iguales"> Son iguales</label>
+                <div class="feedback" id="feedback${index}"></div>
             `;
             document.getElementById("preguntas").appendChild(div);
         }
@@ -166,6 +171,7 @@
                 <label><input type="radio" name="pruebaSecuencia${index}" value="A" required> A es más larga</label><br>
                 <label><input type="radio" name="pruebaSecuencia${index}" value="B"> B es más larga</label><br>
                 <label><input type="radio" name="pruebaSecuencia${index}" value="Iguales"> Son iguales</label>
+                <div class="feedback" id="feedbackSecuencia${index}"></div>
             `;
             document.getElementById("preguntasSecuencias").appendChild(div);
         }
@@ -187,36 +193,38 @@
                 <label><input type="radio" name="pruebaLinea${index}" value="A" required> A es más larga</label><br>
                 <label><input type="radio" name="pruebaLinea${index}" value="B"> B es más larga</label><br>
                 <label><input type="radio" name="pruebaLinea${index}" value="Iguales"> Son iguales</label>
+                <div class="feedback" id="feedbackLinea${index}"></div>
             `;
             document.getElementById("preguntasLineas").appendChild(div);
         }
 
-        // Crear preguntas de suma de líneas más largas
-        function crearPreguntaSuma(index, sumaA, sumaB) {
+        // Crear preguntas de la suma de líneas más largas
+        function crearPreguntaSuma(index, sumA, sumB) {
             const div = document.createElement("fieldset");
             div.innerHTML = `
                 <legend><strong>Prueba ${index + 1}</strong></legend>
                 <div class="linea-container">
-                    ${sumaA.map(l => `<div class="linea" style="width: ${l}px;"></div>`).join('')}
+                    ${sumA.map(largo => `<div class="linea" style="width: ${largo}px;"></div>`).join("")}
                     <span>A</span>
                 </div>
                 <div class="linea-container">
-                    ${sumaB.map(l => `<div class="linea" style="width: ${l}px;"></div>`).join('')}
+                    ${sumB.map(largo => `<div class="linea" style="width: ${largo}px;"></div>`).join("")}
                     <span>B</span>
                 </div>
                 <br>
-                <label><input type="radio" name="pruebaSuma${index}" value="A" required> A es más larga</label><br>
-                <label><input type="radio" name="pruebaSuma${index}" value="B"> B es más larga</label><br>
+                <label><input type="radio" name="pruebaSuma${index}" value="A" required> A es más largo</label><br>
+                <label><input type="radio" name="pruebaSuma${index}" value="B"> B es más largo</label><br>
                 <label><input type="radio" name="pruebaSuma${index}" value="Iguales"> Son iguales</label>
+                <div class="feedback" id="feedbackSuma${index}"></div>
             `;
             document.getElementById("preguntasSumas").appendChild(div);
         }
 
-        // Generar preguntas
-        pruebasTonos.forEach((p, i) => crearPregunta(i, p.A, p.B));
-        pruebasSecuencias.forEach((p, i) => crearPreguntaSecuencia(i, p.A, p.B));
-        pruebasLineas.forEach((p, i) => crearPreguntaLinea(i, p.A, p.B));
-        pruebasSumas.forEach((p, i) => crearPreguntaSuma(i, p.A, p.B));
+        // Generar todas las preguntas
+        pruebasTonos.forEach((p, index) => crearPregunta(index, p.A, p.B));
+        pruebasSecuencias.forEach((p, index) => crearPreguntaSecuencia(index, p.A, p.B));
+        pruebasLineas.forEach((p, index) => crearPreguntaLinea(index, p.A, p.B));
+        pruebasSumas.forEach((p, index) => crearPreguntaSuma(index, p.A, p.B));
     </script>
 </body>
 </html>
