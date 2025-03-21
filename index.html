@@ -118,17 +118,18 @@
     <section>
         <h2>Bienvenido/a</h2>
         <p>
-            Este cuestionario forma parte de un estudio sobre percepción auditiva y visual. El objetivo es evaluar tu
-            capacidad para discriminar entre estímulos sonoros y visuales simples. Este cuestionario es totalmente
-            anónimo y tus datos serán tratados de forma confidencial.
+            Este cuestionario forma parte de mi Trabajo de Fin de Grado que consiste en un estudio sobre percepción
+            auditiva y visual. El objetivo es evaluar tu capacidad para discriminar estímulos sonoros y visuales. Este
+            cuestionario es totalmente anónimo.
         </p>
         <p>
-            Para asegurar la validez de los resultados, es <strong>muy importante que realices este cuestionario
-                COMPLETO una sola vez</strong>. Repetir el cuestionario o hacerlo de forma incompleta puede afectar
-            negativamente la calidad de los datos y, por lo tanto, la validez del estudio.
+            Para asegurar la validez de los resultados, es muy importante que realices este cuestionario COMPLETO una
+            sola vez. Repetir el cuestionario o hacerlo de forma incompleta afectará negativamente a la calidad de los
+            datos y, por lo tanto, a la validez de mi estudio. <strong>Se recomienda el uso de auriculares para su
+                realización. Puedes reproducir los sonidos todas las veces que lo necesites.</strong>
         </p>
         <p>
-            Por favor, responde a todas las preguntas con atención y honestidad. ¡Gracias por tu colaboración!
+            Por favor, responde a todas las preguntas con atención y honestidad. ¡Muchas gracias por tu ayuda!
         </p>
     </section>
 
@@ -198,182 +199,247 @@
     </form>
 
     <script>
-        // Parte 1: Pruebas de tonos
-        const pruebasTonos = [{
-                A: 700,
-                B: 700
-            },
-            {
-                A: 500,
-                B: 525
-            },
-            {
-                A: 550,
-                B: 600
-            },
-            {
-                A: 600,
-                B: 625
-            },
-            {
-                A: 700,
-                B: 750
-            },
-            {
-                A: 450,
-                B: 500
-            },
-            {
-                A: 700,
-                B: 700
-            },
-            {
-                A: 500,
-                B: 550
-            },
-            {
-                A: 600,
-                B: 650
-            },
-            {
-                A: 550,
-                B: 575
-            }
-        ];
+        // Ofuscación básica del código JavaScript
+        (function () {
+            var _0x4c02 = ['4677854uYlXN', '1827516uQIZOX', '18mzlNJD', '23eQkRYG', '78936bYkFqg', '4255608mQAZsX',
+                '1708844UfFhCt', '178917XKmUya', '3988862BWeXyJ', '1077100mGcLef'
+            ];
+            var _0x5f3c = function (_0x120234, _0x35f3c3) {
+                _0x120234 = _0x120234 - 0x0;
+                var _0x4c02b4 = _0x4c02[_0x120234];
+                return _0x4c02b4;
+            };
+            (function (_0x26a637, _0x28c823) {
+                var _0x52c63b = _0x5f3c;
+                while (!![]) {
+                    try {
+                        var _0x39e62c = parseInt(_0x52c63b(0x3)) * (parseInt(_0x52c63b(0x1)) / 0x2) + -parseInt(
+                            _0x52c63b(0x8)) + parseInt(_0x52c63b(0x6)) + -parseInt(_0x52c63b(0x2)) + parseInt(
+                            _0x52c63b(0x7)) * (-parseInt(_0x52c63b(0x9)) / 0x3) + -parseInt(_0x52c63b(0x0)) +
+                            parseInt(_0x52c63b(0x4)) * (-parseInt(_0x52c63b(0x5)) / 0x5);
+                        if (_0x39e62c === _0x28c823) break;
+                        else _0x26a637['push'](_0x26a637['shift']());
+                    } catch (_0x4df42d) {
+                        _0x26a637['push'](_0x26a637['shift']());
+                    }
+                }
+            }(_0x4c02, 0xae109));
+            // Parte 1: Pruebas de tonos
+            const pruebasTonos = [{
+                    A: 700,
+                    B: 700
+                },
+                {
+                    A: 500,
+                    B: 525
+                },
+                {
+                    A: 550,
+                    B: 600
+                },
+                {
+                    A: 600,
+                    B: 625
+                },
+                {
+                    A: 700,
+                    B: 750
+                },
+                {
+                    A: 450,
+                    B: 500
+                },
+                {
+                    A: 700,
+                    B: 700
+                },
+                {
+                    A: 500,
+                    B: 550
+                },
+                {
+                    A: 600,
+                    B: 650
+                },
+                {
+                    A: 550,
+                    B: 575
+                }
+            ];
 
-        // Parte 2: Pruebas de secuencias
-        const pruebasSecuencias = [{
-                A: [400, 600, 500],
-                B: [350, 450, 400, 500]
-            },
-            {
-                A: [300, 500, 400, 600],
-                B: [250, 350, 450, 400, 500]
-            },
-            {
-                A: [700, 800, 750],
-                B: [500, 600, 700, 450]
-            },
-            {
-                A: [200, 300, 400, 500, 600],
-                B: [180, 280, 380, 480, 580, 680]
-            },
-            {
-                A: [450, 550, 600, 700],
-                B: [800, 850, 750]
-            },
-            {
-                A: [500, 600, 700],
-                B: [450, 550, 650, 600]
-            },
-            {
-                A: [300, 400, 500, 600, 700],
-                B: [250, 350, 450, 500, 650, 700]
-            },
-            {
-                A: [600, 700, 800, 900],
-                B: [550, 650, 750, 850, 950]
-            },
-            {
-                A: [400, 500, 600],
-                B: [350, 450, 500, 550]
-            },
-            {
-                A: [450, 550, 650, 750],
-                B: [600, 700, 800]
-            }
-        ];
+            // Parte 2: Pruebas de secuencias
+            const pruebasSecuencias = [{
+                    A: [400, 600, 500],
+                    B: [350, 450, 400, 500]
+                },
+                {
+                    A: [300, 500, 400, 600],
+                    B: [250, 350, 450, 400, 500]
+                },
+                {
+                    A: [700, 800, 750],
+                    B: [500, 600, 700, 450]
+                },
+                {
+                    A: [200, 300, 400, 500, 600],
+                    B: [180, 280, 380, 480, 580, 680]
+                },
+                {
+                    A: [450, 550, 600, 700],
+                    B: [800, 850, 750]
+                },
+                {
+                    A: [500, 600, 700],
+                    B: [450, 550, 650, 600]
+                },
+                {
+                    A: [300, 400, 500, 600, 700],
+                    B: [250, 350, 450, 500, 650, 700]
+                },
+                {
+                    A: [600, 700, 800, 900],
+                    B: [550, 650, 750, 850, 950]
+                },
+                {
+                    A: [400, 500, 600],
+                    B: [350, 450, 500, 550]
+                },
+                {
+                    A: [450, 550, 650, 750],
+                    B: [600, 700, 800]
+                }
+            ];
 
-        // Parte 3: Pruebas de la línea más larga
-        const pruebasLineas = [{
-                A: 200,
-                B: 250
-            },
-            {
-                A: 150,
-                B: 150
-            },
-            {
-                A: 100,
-                B: 80
-            },
-            {
-                A: 220,
-                B: 180
-            },
-            {
-                A: 120,
-                B: 120
-            }
-        ];
+            // Parte 3: Pruebas de la línea más larga
+            const pruebasLineas = [{
+                    A: 200,
+                    B: 250
+                },
+                {
+                    A: 150,
+                    B: 150
+                },
+                {
+                    A: 100,
+                    B: 80
+                },
+                {
+                    A: 220,
+                    B: 180
+                },
+                {
+                    A: 120,
+                    B: 120
+                },
+                {
+                    A: 180,
+                    B: 200
+                }, // Nueva prueba
+                {
+                    A: 250,
+                    B: 220
+                }, // Nueva prueba
+                {
+                    A: 90,
+                    B: 110
+                }, // Nueva prueba
+                {
+                    A: 160,
+                    B: 160
+                }, // Nueva prueba
+                {
+                    A: 210,
+                    B: 190
+                } // Nueva prueba
+            ];
 
-        // Parte 4: Pruebas de la suma de líneas más larga
-        const pruebasSumas = [{
-                A: [50, 100],
-                B: [40, 80, 50]
-            },
-            {
-                A: [80, 120],
-                B: [70, 90, 60]
-            },
-            {
-                A: [100, 120, 80],
-                B: [50, 60, 90, 70]
-            },
-            {
-                A: [30, 50],
-                B: [60, 80, 40]
-            },
-            {
-                A: [70, 70, 70],
-                B: [50, 50, 50, 50]
-            }
-        ];
+            // Parte 4: Pruebas de la suma de líneas más larga
+            const pruebasSumas = [{
+                    A: [50, 100],
+                    B: [40, 80, 50]
+                },
+                {
+                    A: [80, 120],
+                    B: [70, 90, 60]
+                },
+                {
+                    A: [100, 120, 80],
+                    B: [50, 60, 90, 70]
+                },
+                {
+                    A: [30, 50],
+                    B: [60, 80, 40]
+                },
+                {
+                    A: [70, 70, 70],
+                    B: [50, 50, 50, 50]
+                },
+                {
+                    A: [60, 90],
+                    B: [50, 70, 30]
+                }, // Nueva prueba
+                {
+                    A: [40, 60, 50],
+                    B: [70, 30, 40]
+                }, // Nueva prueba
+                {
+                    A: [80, 80],
+                    B: [60, 50, 30]
+                }, // Nueva prueba
+                {
+                    A: [50, 40, 30],
+                    B: [60, 60]
+                }, // Nueva prueba
+                {
+                    A: [90, 50],
+                    B: [40, 40, 40]
+                } // Nueva prueba
+            ];
 
-        let audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-        let playing = false; // Estado del audio
-        let formSubmitted = false; // Control para evitar envíos múltiples
+            let audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+            let playing = false; // Estado del audio
+            let formSubmitted = false; // Control para evitar envíos múltiples
 
-        function generarSonido(duracion) {
-            if (playing) return; // Evita superposición
+            function generarSonido(duracion) {
+                if (playing) return; // Evita superposición
 
-            playing = true;
-            let osc = audioCtx.createOscillator();
-            osc.frequency.setValueAtTime(440, audioCtx.currentTime);
-            osc.type = "sine";
-            osc.connect(audioCtx.destination);
-            osc.start();
-
-            setTimeout(() => {
-                osc.stop();
-                playing = false;
-            }, duracion);
-        }
-
-        function generarSecuencia(tonos) {
-            if (playing) return;
-
-            playing = true;
-            let startTime = audioCtx.currentTime;
-
-            tonos.forEach((duracion, index) => {
+                playing = true;
                 let osc = audioCtx.createOscillator();
-                osc.frequency.setValueAtTime(440, startTime + index * (duracion / 1000));
+                osc.frequency.setValueAtTime(440, audioCtx.currentTime);
                 osc.type = "sine";
                 osc.connect(audioCtx.destination);
-                osc.start(startTime + index * (duracion / 1000));
-                osc.stop(startTime + index * (duracion / 1000) + duracion / 1000);
-            });
+                osc.start();
 
-            setTimeout(() => {
-                playing = false;
-            }, tonos.reduce((a, b) => a + b, 0));
-        }
+                setTimeout(() => {
+                    osc.stop();
+                    playing = false;
+                }, duracion);
+            }
 
-        // Crear preguntas de tonos
-        function crearPregunta(index, tonoA, tonoB) {
-            const div = document.createElement("fieldset");
-            div.innerHTML = `
+            function generarSecuencia(tonos) {
+                if (playing) return;
+
+                playing = true;
+                let startTime = audioCtx.currentTime;
+
+                tonos.forEach((duracion, index) => {
+                    let osc = audioCtx.createOscillator();
+                    osc.frequency.setValueAtTime(440, startTime + index * (duracion / 1000));
+                    osc.type = "sine";
+                    osc.connect(audioCtx.destination);
+                    osc.start(startTime + index * (duracion / 1000));
+                    osc.stop(startTime + index * (duracion / 1000) + duracion / 1000);
+                });
+
+                setTimeout(() => {
+                    playing = false;
+                }, tonos.reduce((a, b) => a + b, 0));
+            }
+
+            // Crear preguntas de tonos
+            function crearPregunta(index, tonoA, tonoB) {
+                const div = document.createElement("fieldset");
+                div.innerHTML = `
                 <legend><strong>Prueba ${index + 1}</strong></legend>
                 <button type="button" onclick="generarSonido(${tonoA})">Reproducir Sonido A</button>
                 <button type="button" onclick="generarSonido(${tonoB})">Reproducir Sonido B</button>
@@ -383,13 +449,13 @@
                 <label><input type="radio" name="prueba${index}" value="Iguales"> Son iguales</label>
                 <div class="feedback" id="feedback${index}"></div>
             `;
-            document.getElementById("preguntas").appendChild(div);
-        }
+                document.getElementById("preguntas").appendChild(div);
+            }
 
-        // Crear preguntas de secuencias
-        function crearPreguntaSecuencia(index, secuenciaA, secuenciaB) {
-            const div = document.createElement("fieldset");
-            div.innerHTML = `
+            // Crear preguntas de secuencias
+            function crearPreguntaSecuencia(index, secuenciaA, secuenciaB) {
+                const div = document.createElement("fieldset");
+                div.innerHTML = `
                 <legend><strong>Prueba ${index + 1}</strong></legend>
                 <button type="button" onclick="generarSecuencia([${secuenciaA}])">Reproducir Secuencia A</button>
                 <button type="button" onclick="generarSecuencia([${secuenciaB}])">Reproducir Secuencia B</button>
@@ -399,16 +465,16 @@
                 <label><input type="radio" name="pruebaSecuencia${index}" value="Iguales"> Son iguales</label>
                 <div class="feedback" id="feedbackSecuencia${index}"></div>
             `;
-            document.getElementById("preguntasSecuencias").appendChild(div);
-        }
+                document.getElementById("preguntasSecuencias").appendChild(div);
+            }
 
-        // Crear preguntas de líneas más largas
-        function crearPreguntaLinea(index, largoA, largoB) {
-            const anguloA = Math.random() * 45 - 22.5;
-            const anguloB = Math.random() * 45 - 22.5;
+            // Crear preguntas de líneas más largas
+            function crearPreguntaLinea(index, largoA, largoB) {
+                const anguloA = Math.random() * 45 - 22.5;
+                const anguloB = Math.random() * 45 - 22.5;
 
-            const div = document.createElement("fieldset");
-            div.innerHTML = `
+                const div = document.createElement("fieldset");
+                div.innerHTML = `
                 <legend><strong>Prueba ${index + 1}</strong></legend>
                 <div class="lineas-container">
                   <div class="linea-container">
@@ -426,24 +492,28 @@
                 <label><input type="radio" name="pruebaLinea${index}" value="Iguales"> Son iguales</label>
                 <div class="feedback" id="feedbackLinea${index}"></div>
             `;
-            document.getElementById("preguntasLineas").appendChild(div);
-        }
+                document.getElementById("preguntasLineas").appendChild(div);
+            }
 
-        // Crear preguntas de la suma de líneas más largas
-        function crearPreguntaSuma(index, sumA, sumB) {
-            const anguloA = Math.random() * 45 - 22.5;
-            const anguloB = Math.random() * 45 - 22.5;
+            // Crear preguntas de la suma de líneas más largas
+            function crearPreguntaSuma(index, sumA, sumB) {
+                const anguloA = Math.random() * 45 - 22.5;
+                const anguloB = Math.random() * 45 - 22.5;
 
-            const div = document.createElement("fieldset");
-            div.innerHTML = `
+                const div = document.createElement("fieldset");
+                div.innerHTML = `
                 <legend><strong>Prueba ${index + 1}</strong></legend>
                 <div class="lineas-container">
                   <div class="linea-container">
-                      ${sumA.map((largo, i) => `<div class="linea" style="width: ${largo}px; transform: rotate(${anguloA}deg) translateY(${i * 10}px);"></div>`).join("")}
+                      ${sumA.map((largo, i) =>
+                    `<div class="linea" style="width: ${largo}px; transform: rotate(${anguloA}deg) translateY(${i * 10}px);"></div>`
+                ).join("")}
                       <span style="position: absolute; left: ${Math.max(...sumA) + 5}px;">A</span>
                   </div>
                   <div class="linea-container">
-                      ${sumB.map((largo, i) => `<div class="linea" style="width: ${largo}px; transform: rotate(${anguloB}deg) translateY(${i * 10}px);"></div>`).join("")}
+                      ${sumB.map((largo, i) =>
+                    `<div class="linea" style="width: ${largo}px; transform: rotate(${anguloB}deg) translateY(${i * 10}px);"></div>`
+                ).join("")}
                       <span style="position: absolute; left: ${Math.max(...sumB) + 5}px;">B</span>
                   </div>
                 </div>
@@ -453,24 +523,25 @@
                 <label><input type="radio" name="pruebaSuma${index}" value="Iguales"> Son iguales</label>
                 <div class="feedback" id="feedbackSuma${index}"></div>
             `;
-            document.getElementById("preguntasSumas").appendChild(div);
-        }
-
-        // Generar todas las preguntas
-        pruebasTonos.forEach((p, index) => crearPregunta(index, p.A, p.B));
-        pruebasSecuencias.forEach((p, index) => crearPreguntaSecuencia(index, p.A, p.B));
-        pruebasLineas.forEach((p, index) => crearPreguntaLinea(index, p.A, p.B));
-        pruebasSumas.forEach((p, index) => crearPreguntaSuma(index, p.A, p.B));
-
-        // Función para prevenir envíos múltiples
-        document.getElementById("cuestionario").addEventListener("submit", function (event) {
-            if (formSubmitted) {
-                event.preventDefault();
-                alert("Ya has enviado este formulario. Gracias por participar.");
-            } else {
-                formSubmitted = true;
+                document.getElementById("preguntasSumas").appendChild(div);
             }
-        });
+
+            // Generar todas las preguntas
+            pruebasTonos.forEach((p, index) => crearPregunta(index, p.A, p.B));
+            pruebasSecuencias.forEach((p, index) => crearPreguntaSecuencia(index, p.A, p.B));
+            pruebasLineas.forEach((p, index) => crearPreguntaLinea(index, p.A, p.B));
+            pruebasSumas.forEach((p, index) => crearPreguntaSuma(index, p.A, p.B));
+
+            // Función para prevenir envíos múltiples
+            document.getElementById("cuestionario").addEventListener("submit", function (event) {
+                if (formSubmitted) {
+                    event.preventDefault();
+                    alert("Ya has enviado este formulario. Gracias por participar.");
+                } else {
+                    formSubmitted = true;
+                }
+            });
+        })();
     </script>
     <script>
         const timestamp = new Date().getTime();
