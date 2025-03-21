@@ -20,11 +20,13 @@
         }
         .linea {
             display: inline-block;
-            height: 20px;
+            height: 2px;
             background-color: #000;
+            position: absolute;
         }
         .linea-container {
             margin-bottom: 10px;
+            position: relative;
         }
         .feedback {
             margin-top: 10px;
@@ -178,15 +180,22 @@
 
         // Crear preguntas de líneas más largas
         function crearPreguntaLinea(index, largoA, largoB) {
+            const anguloA = Math.random() * 45 - 22.5; // Ángulo entre -22.5 y 22.5 grados
+            const anguloB = Math.random() * 45 - 22.5;
+            const xA = Math.random() * 150 - 75;
+            const yA = Math.random() * 150 - 75;
+            const xB = Math.random() * 150 - 75;
+            const yB = Math.random() * 150 - 75;
+
             const div = document.createElement("fieldset");
             div.innerHTML = `
                 <legend><strong>Prueba ${index + 1}</strong></legend>
                 <div class="linea-container">
-                    <div class="linea" style="width: ${largoA}px;"></div>
+                    <div class="linea" style="width: ${largoA}px; transform: rotate(${anguloA}deg); left: ${xA}px; top: ${yA}px;"></div>
                     <span>A</span>
                 </div>
                 <div class="linea-container">
-                    <div class="linea" style="width: ${largoB}px;"></div>
+                    <div class="linea" style="width: ${largoB}px; transform: rotate(${anguloB}deg); left: ${xB}px; top: ${yB}px;"></div>
                     <span>B</span>
                 </div>
                 <br>
@@ -200,15 +209,22 @@
 
         // Crear preguntas de la suma de líneas más largas
         function crearPreguntaSuma(index, sumA, sumB) {
+            const anguloA = Math.random() * 45 - 22.5; 
+            const anguloB = Math.random() * 45 - 22.5;
+            const xA = Math.random() * 150 - 75;
+            const yA = Math.random() * 150 - 75;
+            const xB = Math.random() * 150 - 75;
+            const yB = Math.random() * 150 - 75;
+
             const div = document.createElement("fieldset");
             div.innerHTML = `
                 <legend><strong>Prueba ${index + 1}</strong></legend>
                 <div class="linea-container">
-                    ${sumA.map(largo => `<div class="linea" style="width: ${largo}px;"></div>`).join("")}
+                    ${sumA.map(largo => `<div class="linea" style="width: ${largo}px; transform: rotate(${anguloA}deg); left: ${xA}px; top: ${yA}px;"></div>`).join("")}
                     <span>A</span>
                 </div>
                 <div class="linea-container">
-                    ${sumB.map(largo => `<div class="linea" style="width: ${largo}px;"></div>`).join("")}
+                    ${sumB.map(largo => `<div class="linea" style="width: ${largo}px; transform: rotate(${anguloB}deg); left: ${xB}px; top: ${yB}px;"></div>`).join("")}
                     <span>B</span>
                 </div>
                 <br>
