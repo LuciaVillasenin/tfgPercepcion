@@ -18,15 +18,18 @@
         button {
             margin: 5px;
         }
+        .linea-container {
+            height: 100px;
+            margin-bottom: 20px;
+            position: relative;
+        }
         .linea {
             display: inline-block;
             height: 2px;
             background-color: #000;
             position: absolute;
-        }
-        .linea-container {
-            margin-bottom: 10px;
-            position: relative;
+            top: 50%;
+            transform-origin: left center;
         }
         .feedback {
             margin-top: 10px;
@@ -180,23 +183,19 @@
 
         // Crear preguntas de líneas más largas
         function crearPreguntaLinea(index, largoA, largoB) {
-            const anguloA = Math.random() * 45 - 22.5; // Ángulo entre -22.5 y 22.5 grados
+            const anguloA = Math.random() * 45 - 22.5;
             const anguloB = Math.random() * 45 - 22.5;
-            const xA = Math.random() * 150 - 75;
-            const yA = Math.random() * 150 - 75;
-            const xB = Math.random() * 150 - 75;
-            const yB = Math.random() * 150 - 75;
 
             const div = document.createElement("fieldset");
             div.innerHTML = `
                 <legend><strong>Prueba ${index + 1}</strong></legend>
                 <div class="linea-container">
-                    <div class="linea" style="width: ${largoA}px; transform: rotate(${anguloA}deg); left: ${xA}px; top: ${yA}px;"></div>
-                    <span>A</span>
+                    <div class="linea" style="width: ${largoA}px; transform: rotate(${anguloA}deg);"></div>
+                    <span style="position: absolute; left: ${largoA + 5}px;">A</span>
                 </div>
                 <div class="linea-container">
-                    <div class="linea" style="width: ${largoB}px; transform: rotate(${anguloB}deg); left: ${xB}px; top: ${yB}px;"></div>
-                    <span>B</span>
+                    <div class="linea" style="width: ${largoB}px; transform: rotate(${anguloB}deg);"></div>
+                    <span style="position: absolute; left: ${largoB + 5}px;">B</span>
                 </div>
                 <br>
                 <label><input type="radio" name="pruebaLinea${index}" value="A" required> A es más larga</label><br>
@@ -209,23 +208,19 @@
 
         // Crear preguntas de la suma de líneas más largas
         function crearPreguntaSuma(index, sumA, sumB) {
-            const anguloA = Math.random() * 45 - 22.5; 
+            const anguloA = Math.random() * 45 - 22.5;
             const anguloB = Math.random() * 45 - 22.5;
-            const xA = Math.random() * 150 - 75;
-            const yA = Math.random() * 150 - 75;
-            const xB = Math.random() * 150 - 75;
-            const yB = Math.random() * 150 - 75;
 
             const div = document.createElement("fieldset");
             div.innerHTML = `
                 <legend><strong>Prueba ${index + 1}</strong></legend>
                 <div class="linea-container">
-                    ${sumA.map(largo => `<div class="linea" style="width: ${largo}px; transform: rotate(${anguloA}deg); left: ${xA}px; top: ${yA}px;"></div>`).join("")}
-                    <span>A</span>
+                    ${sumA.map((largo, i) => `<div class="linea" style="width: ${largo}px; transform: rotate(${anguloA}deg) translateY(${i * 10}px);"></div>`).join("")}
+                    <span style="position: absolute; left: ${Math.max(...sumA) + 5}px;">A</span>
                 </div>
                 <div class="linea-container">
-                    ${sumB.map(largo => `<div class="linea" style="width: ${largo}px; transform: rotate(${anguloB}deg); left: ${xB}px; top: ${yB}px;"></div>`).join("")}
-                    <span>B</span>
+                    ${sumB.map((largo, i) => `<div class="linea" style="width: ${largo}px; transform: rotate(${anguloB}deg) translateY(${i * 10}px);"></div>`).join("")}
+                    <span style="position: absolute; left: ${Math.max(...sumB) + 5}px;">B</span>
                 </div>
                 <br>
                 <label><input type="radio" name="pruebaSuma${index}" value="A" required> A es más largo</label><br>
