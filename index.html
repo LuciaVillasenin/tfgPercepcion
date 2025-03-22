@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 600px;
+            max-width: 800px;
             margin: 20px auto;
             padding: 20px;
             background-color: #f4f4f4;
@@ -16,6 +16,13 @@
         h1, h2 {
             color: #0056b3;
             text-align: center;
+        }
+        section {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
         }
         fieldset {
             margin-bottom: 20px;
@@ -51,6 +58,7 @@
             margin-bottom: 20px;
             position: relative;
             overflow: hidden;
+            display: inline-block;
         }
         .linea {
             display: inline-block;
@@ -82,15 +90,109 @@
         #cuestionario button[type="submit"]:hover {
             background-color: #1e7e34;
         }
+        .prueba-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            fieldset {
+                padding: 10px;
+            }
+            .linea-container {
+                width: 100%;
+            }
+            .prueba-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .prueba-container > div {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+        /* Estilos para la tabla */
+        .tabla-parametros {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .tabla-parametros th, .tabla-parametros td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .tabla-parametros th {
+            background-color: #f2f2f2;
+        }
     </style>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>Cuestionario de Discriminación Auditiva y Visual</h1>
 
-    <!-- Parte 1: Discriminación Auditiva -->
-    <p><strong>Parte 1:</strong> En cada prueba, escucha los sonidos A y B y selecciona cuál es más largo o si son iguales.</p>
+    <section>
+        <h2>Te doy la bienvenida a este cuestionario</h2>
+        <p>
+            La siguiente prueba forma parte de mi Trabajo de Fin de Grado que consiste en un estudio sobre percepción
+            auditiva y visual. El objetivo es evaluar tu capacidad para discriminar estímulos sonoros y visuales. Este
+            cuestionario es totalmente anónimo.
+        </p>
+        <p>
+            Para asegurar la validez de los resultados, es muy importante que realices este cuestionario COMPLETO una
+            sola vez. Repetir el cuestionario o hacerlo de forma incompleta afectará negativamente a la calidad de los
+            datos y, por lo tanto, a la validez de mi estudio. <strong>Se recomienda el uso de auriculares para su
+                realización. Puedes reproducir los sonidos todas las veces que lo necesites.</strong>
+        </p>
+        <p>
+            Por favor, responde a todas las preguntas con atención y honestidad y si detectas algún error en el funcionamiento,
+            repórtamelo para que pueda arreglarlo a la mayor brevedad ¡Muchas gracias por tu ayuda!
+        </p>
+    </section>
+
     <form id="cuestionario" action="https://formspree.io/f/mnnpnvyb" method="POST">
+        <h2>Datos Demográficos</h2>
+        <fieldset>
+            <legend>Información Personal</legend>
+            <label for="edad">Edad:</label>
+            <input type="number" id="edad" name="edad" required min="18" max="100"><br><br>
+
+            <label for="genero">Género:</label>
+            <select id="genero" name="genero" required>
+                <option value="">Selecciona una opción</option>
+                <option value="masculino">Masculino</option>
+                <option value="femenino">Femenino</option>
+                <option value="otro">Otro</option>
+                <option value="prefiero_no_decir">Prefiero no decir</option>
+            </select><br><br>
+
+            <label for="educacion">Nivel de Educación:</label>
+            <select id="educacion" name="educacion" required>
+                <option value="">Selecciona una opción</option>
+                <option value="primaria">Educación Primaria</option>
+                <option value="secundaria">Educación Secundaria</option>
+                <option value="bachillerato">Bachillerato</option>
+                <option value="grado">Grado Universitario</option>
+                <option value="master">Máster</option>
+                <option value="doctorado">Doctorado</option>
+            </select><br><br>
+
+            <label for="experiencia_musical">¿Tienes experiencia musical?</label>
+            <select id="experiencia_musical" name="experiencia_musical" required>
+                <option value="">Selecciona una opción</option>
+                <option value="ninguna">Ninguna</option>
+                <option value="aficionado">Aficionado</option>
+                <option value="semi_profesional">Semi-profesional</option>
+                <option value="profesional">Profesional</option>
+            </select>
+        </fieldset>
+
+        <!-- Parte 1: Discriminación Auditiva -->
+        <h2>Parte 1: Discriminación Auditiva</h2>
+        <p>En cada prueba, escucha los sonidos A y B y selecciona cuál es más largo o si son iguales.</p>
         <div id="preguntas"></div>
 
         <!-- Parte 2: Discriminación de Secuencias -->
@@ -108,10 +210,62 @@
         <p>Selecciona cuál es la suma de líneas más larga o si son iguales.</p>
         <div id="preguntasSumas"></div>
 
-        <button type="submit">Enviar Respuestas</button>
+        <button type="submit" id="submitBtn">Enviar Respuestas</button>
     </form>
 
+    <!-- Tablas de parámetros -->
+    <h2>Tablas de Parámetros</h2>
+
+    <h3>Parámetros de Sonido</h3>
+    <table class="tabla-parametros">
+        <thead>
+            <tr>
+                <th>Parámetro</th>
+                <th>Valor</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Frecuencia</td>
+                <td>440 Hz</td>
+                <td>Frecuencia base de los tonos generados.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Parámetros de Segmentos Visuales</h3>
+    <table class="tabla-parametros">
+        <thead>
+            <tr>
+                <th>Parámetro</th>
+                <th>Valor</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Longitud Mínima</td>
+                <td>30px</td>
+                <td>Longitud mínima de los segmentos de línea.</td>
+            </tr>
+            <tr>
+                <td>Longitud Máxima</td>
+                <td>250px</td>
+                <td>Longitud máxima de los segmentos de línea.</td>
+            </tr>
+            <tr>
+                <td>Ángulo Máximo</td>
+                <td>22.5 grados</td>
+                <td>Ángulo máximo de rotación de los segmentos de línea (±).</td>
+            </tr>
+        </tbody>
+    </table>
+
     <script>
+        // Configuración general
+        const frecuenciaBase = 440; // Hz
+
         // Parte 1: Pruebas de tonos
         const pruebasTonos = [
             { A: 700, B: 700 },
@@ -147,11 +301,11 @@
             { A: 100, B: 80 },
             { A: 220, B: 180 },
             { A: 120, B: 120 },
-            { A: 180, B: 200 }, // Nueva prueba
-            { A: 250, B: 220 }, // Nueva prueba
-            { A: 90, B: 110 },  // Nueva prueba
-            { A: 160, B: 160 }, // Nueva prueba
-            { A: 210, B: 190 }  // Nueva prueba
+            { A: 180, B: 200 },
+            { A: 250, B: 220 },
+            { A: 90, B: 110 },
+            { A: 160, B: 160 },
+            { A: 210, B: 190 }
         ];
 
         // Parte 4: Pruebas de la suma de líneas más larga
@@ -161,22 +315,23 @@
             { A: [100, 120, 80], B: [50, 60, 90, 70] },
             { A: [30, 50], B: [60, 80, 40] },
             { A: [70, 70, 70], B: [50, 50, 50, 50] },
-            { A: [60, 90], B: [50, 70, 30] }, // Nueva prueba
-            { A: [40, 60, 50], B: [70, 30, 40] }, // Nueva prueba
-            { A: [80, 80], B: [60, 50, 30] },  // Nueva prueba
-            { A: [50, 40, 30], B: [60, 60] },   // Nueva prueba
-            { A: [90, 50], B: [40, 40, 40] }    // Nueva prueba
+            { A: [60, 90], B: [50, 70, 30] },
+            { A: [40, 60, 50], B: [70, 30, 40] },
+            { A: [80, 80], B: [60, 50, 30] },
+            { A: [50, 40, 30], B: [60, 60] },
+            { A: [90, 50], B: [40, 40, 40] }
         ];
 
         let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        let playing = false; // Estado del audio
+        let playing = false;
+        let formSubmitted = false; // Variable para controlar si el formulario ya se envió
 
         function generarSonido(duracion) {
-            if (playing) return; // Evita superposición
+            if (playing) return;
 
             playing = true;
             let osc = audioCtx.createOscillator();
-            osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+            osc.frequency.setValueAtTime(frecuenciaBase, audioCtx.currentTime);
             osc.type = "sine";
             osc.connect(audioCtx.destination);
             osc.start();
@@ -192,28 +347,32 @@
 
             playing = true;
             let startTime = audioCtx.currentTime;
-
             tonos.forEach((duracion, index) => {
                 let osc = audioCtx.createOscillator();
-                osc.frequency.setValueAtTime(440, startTime + index * (duracion / 1000));
+                osc.frequency.setValueAtTime(frecuenciaBase, startTime + index * (duracion / 1000 + 0.1));
                 osc.type = "sine";
                 osc.connect(audioCtx.destination);
-                osc.start(startTime + index * (duracion / 1000));
-                osc.stop(startTime + index * (duracion / 1000) + duracion / 1000);
+                osc.start(startTime + index * (duracion / 1000 + 0.1));
+                osc.stop(startTime + index * (duracion / 1000 + 0.1) + duracion / 1000);
             });
 
             setTimeout(() => {
                 playing = false;
-            }, tonos.reduce((a, b) => a + b, 0));
+            }, tonos.reduce((a, b) => a + b, 0) + (tonos.length - 1) * 100);
         }
 
-        // Crear preguntas de tonos
         function crearPregunta(index, tonoA, tonoB) {
             const div = document.createElement("fieldset");
             div.innerHTML = `
                 <legend><strong>Prueba ${index + 1}</strong></legend>
-                <button type="button" onclick="generarSonido(${tonoA})">Reproducir Sonido A</button>
-                <button type="button" onclick="generarSonido(${tonoB})">Reproducir Sonido B</button>
+                <div class="prueba-container">
+                    <div>
+                        <button type="button" onclick="generarSonido(${tonoA})">Reproducir Sonido A</button>
+                    </div>
+                    <div>
+                        <button type="button" onclick="generarSonido(${tonoB})">Reproducir Sonido B</button>
+                    </div>
+                </div>
                 <br>
                 <label><input type="radio" name="prueba${index}" value="A" required> A es más largo</label><br>
                 <label><input type="radio" name="prueba${index}" value="B"> B es más largo</label><br>
@@ -223,13 +382,18 @@
             document.getElementById("preguntas").appendChild(div);
         }
 
-        // Crear preguntas de secuencias
         function crearPreguntaSecuencia(index, secuenciaA, secuenciaB) {
             const div = document.createElement("fieldset");
             div.innerHTML = `
                 <legend><strong>Prueba ${index + 1}</strong></legend>
-                <button type="button" onclick="generarSecuencia([${secuenciaA}])">Reproducir Secuencia A</button>
-                <button type="button" onclick="generarSecuencia([${secuenciaB}])">Reproducir Secuencia B</button>
+                <div class="prueba-container">
+                    <div>
+                        <button type="button" onclick="generarSecuencia([${secuenciaA}])">Reproducir Secuencia A</button>
+                    </div>
+                    <div>
+                        <button type="button" onclick="generarSecuencia([${secuenciaB}])">Reproducir Secuencia B</button>
+                    </div>
+                </div>
                 <br>
                 <label><input type="radio" name="pruebaSecuencia${index}" value="A" required> A es más larga</label><br>
                 <label><input type="radio" name="pruebaSecuencia${index}" value="B"> B es más larga</label><br>
@@ -239,7 +403,6 @@
             document.getElementById("preguntasSecuencias").appendChild(div);
         }
 
-        // Crear preguntas de líneas más largas
         function crearPreguntaLinea(index, largoA, largoB) {
             const anguloA = Math.random() * 45 - 22.5;
             const anguloB = Math.random() * 45 - 22.5;
@@ -247,13 +410,19 @@
             const div = document.createElement("fieldset");
             div.innerHTML = `
                 <legend><strong>Prueba ${index + 1}</strong></legend>
-                <div class="linea-container">
-                    <div class="linea" style="width: ${largoA}px; transform: rotate(${anguloA}deg);"></div>
-                    <span style="position: absolute; left: ${largoA + 5}px;">A</span>
-                </div>
-                <div class="linea-container">
-                    <div class="linea" style="width: ${largoB}px; transform: rotate(${anguloB}deg);"></div>
-                    <span style="position: absolute; left: ${largoB + 5}px;">B</span>
+                <div class="prueba-container">
+                    <div style="text-align: center;">
+                        <div class="linea-container">
+                            <div class="linea" style="width: ${largoA}px; transform: rotate(${anguloA}deg);"></div>
+                        </div>
+                        <span>A</span>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="linea-container">
+                            <div class="linea" style="width: ${largoB}px; transform: rotate(${anguloB}deg);"></div>
+                        </div>
+                        <span>B</span>
+                    </div>
                 </div>
                 <br>
                 <label><input type="radio" name="pruebaLinea${index}" value="A" required> A es más larga</label><br>
@@ -264,7 +433,6 @@
             document.getElementById("preguntasLineas").appendChild(div);
         }
 
-        // Crear preguntas de la suma de líneas más largas
         function crearPreguntaSuma(index, sumA, sumB) {
             const anguloA = Math.random() * 45 - 22.5;
             const anguloB = Math.random() * 45 - 22.5;
@@ -272,13 +440,19 @@
             const div = document.createElement("fieldset");
             div.innerHTML = `
                 <legend><strong>Prueba ${index + 1}</strong></legend>
-                <div class="linea-container">
-                    ${sumA.map((largo, i) => `<div class="linea" style="width: ${largo}px; transform: rotate(${anguloA}deg) translateY(${i * 10}px);"></div>`).join("")}
-                    <span style="position: absolute; left: ${Math.max(...sumA) + 5}px;">A</span>
-                </div>
-                <div class="linea-container">
-                    ${sumB.map((largo, i) => `<div class="linea" style="width: ${largo}px; transform: rotate(${anguloB}deg) translateY(${i * 10}px);"></div>`).join("")}
-                    <span style="position: absolute; left: ${Math.max(...sumB) + 5}px;">B</span>
+                <div class="prueba-container">
+                    <div style="text-align: center;">
+                        <div class="linea-container">
+                            ${sumA.map((largo, i) => `<div class="linea" style="width: ${largo}px; transform: rotate(${anguloA}deg) translateY(${i * 10}px);"></div>`).join("")}
+                        </div>
+                        <span>A</span>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="linea-container">
+                            ${sumB.map((largo, i) => `<div class="linea" style="width: ${largo}px; transform: rotate(${anguloB}deg) translateY(${i * 10}px);"></div>`).join("")}
+                        </div>
+                        <span>B</span>
+                    </div>
                 </div>
                 <br>
                 <label><input type="radio" name="pruebaSuma${index}" value="A" required> A es más largo</label><br>
@@ -294,12 +468,18 @@
         pruebasSecuencias.forEach((p, index) => crearPreguntaSecuencia(index, p.A, p.B));
         pruebasLineas.forEach((p, index) => crearPreguntaLinea(index, p.A, p.B));
         pruebasSumas.forEach((p, index) => crearPreguntaSuma(index, p.A, p.B));
+
+        // Impedir el envío múltiple del formulario
+        document.getElementById('cuestionario').addEventListener('submit', function(event) {
+            if (formSubmitted) {
+                event.preventDefault(); // Evita el envío si ya se ha enviado antes
+                alert('Este formulario ya ha sido enviado. Gracias.');
+            } else {
+                formSubmitted = true; // Marca el formulario como enviado
+                document.getElementById('submitBtn').disabled = true; // Deshabilita el botón de envío
+                document.getElementById('submitBtn').innerText = 'Enviando...'; // Cambia el texto del botón
+            }
+        });
     </script>
-    <script>
-        const timestamp = new Date().getTime();
-        const styleSheet = document.querySelector('link[rel="stylesheet"]');
-        styleSheet.href = styleSheet.href + '?v=' + timestamp;
-    </script>
-    <script src="script.js"></script>
 </body>
 </html>
