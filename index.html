@@ -307,21 +307,26 @@
         
             playing = true;
             let startTime = audioCtx.currentTime;
-            let delay = 0.15; // Aumentar el delay para evitar solapamiento
         
             tonos.forEach((duracion, index) => {
+                // Calcula el tiempo de inicio de cada tono
+                let tonoStartTime = startTime + index * 0.15; // Delay fijo entre tonos
+                let tonoEndTime = tonoStartTime + duracion / 1000; // Tiempo de finalización del tono
+        
                 let osc = audioCtx.createOscillator();
-                osc.frequency.setValueAtTime(440, startTime + index * delay);
-                osc.type = "sine";
+                osc.frequency.setValueAtTime(440, tonoStartTime); // Frecuencia fija de 440 Hz
+                osc.type = "sine"; // Tipo de onda sinusoidal
                 osc.connect(audioCtx.destination);
-                osc.start(startTime + index * delay);
-                osc.stop(startTime + index * delay + duracion / 1000);
+                osc.start(tonoStartTime);
+                osc.stop(tonoEndTime); // Detener el oscilador en el tiempo correcto
                 osc.onended = () => osc.disconnect(); // Desconectar el oscilador después de detenerse
             });
         
+            // Calcula el tiempo total de la secuencia
+            let totalDuration = tonos.reduce((a, b) => a + b, 0) + (tonos.length - 1) * 150; // Suma duraciones + delays
             setTimeout(() => {
                 playing = false;
-            }, tonos.reduce((a, b) => a + b, 0) + (tonos.length - 1) * delay * 1000);
+            }, totalDuration);
         }
 
         function crearPregunta(index, tonoA, tonoB) {
