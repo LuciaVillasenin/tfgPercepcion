@@ -157,11 +157,15 @@
         <h2>Datos Demográficos</h2>
         <fieldset>
             <legend>Información Personal</legend>
+
+            <label for="nacionalidad">Nacionalidad:</label>
+            <input type="text" id="nacionalidad" name="nacionalidad" required><br><br>
+
             <label for="edad">Edad:</label>
             <input type="number" id="edad" name="edad" required min="18" max="100"><br><br>
 
-            <label for="genero">Género:</label>
-            <select id="genero" name="genero" required>
+            <label for="sexo">Sexo:</label>
+            <select id="sexo" name="sexo" required>
                 <option value="">Selecciona una opción</option>
                 <option value="masculino">Masculino</option>
                 <option value="femenino">Femenino</option>
@@ -169,12 +173,42 @@
                 <option value="prefiero_no_decir">Prefiero no decir</option>
             </select><br><br>
 
+            <label for="ciudad">Ciudad:</label>
+            <input type="text" id="ciudad" name="ciudad" required><br><br>
+
+            <label for="ocupacion">Ocupación:</label>
+            <input type="text" id="ocupacion" name="ocupacion" required><br><br>
+
+            <label for="lateralidad">Lateralidad:</label>
+            <select id="lateralidad" name="lateralidad" required>
+                <option value="">Selecciona una opción</option>
+                <option value="diestro">Diestro</option>
+                <option value="zurdo">Zurdo</option>
+                <option value="ambidiestro">Ambidiestro</option>
+            </select><br><br>
+
+            <label for="problemas_visuales">¿Tienes problemas visuales?</label>
+            <select id="problemas_visuales" name="problemas_visuales" required>
+                <option value="">Selecciona una opción</option>
+                <option value="si">Sí</option>
+                <option value="no">No</option>
+            </select><br><br>
+
+            <label for="problemas_auditivos">¿Tienes problemas auditivos?</label>
+            <select id="problemas_auditivos" name="problemas_auditivos" required>
+                <option value="">Selecciona una opción</option>
+                <option value="si">Sí</option>
+                <option value="no">No</option>
+            </select><br><br>
+            
             <label for="educacion">Nivel de Educación:</label>
             <select id="educacion" name="educacion" required>
                 <option value="">Selecciona una opción</option>
                 <option value="primaria">Educación Primaria</option>
                 <option value="secundaria">Educación Secundaria</option>
                 <option value="bachillerato">Bachillerato</option>
+                <option value="ciclo_formativo_grado_medio">Ciclo Formativo de Grado Medio</option>
+                <option value="ciclo_formativo_grado_superior">Ciclo Formativo de Grado Superior</option>
                 <option value="grado">Grado Universitario</option>
                 <option value="master">Máster</option>
                 <option value="doctorado">Doctorado</option>
@@ -213,7 +247,6 @@
         <button type="submit" id="submitBtn">Enviar Respuestas</button>
     </form>
 
-
     <script>
         // Configuración general
         const frecuenciaBase = 440; // Hz
@@ -234,16 +267,16 @@
 
         // Parte 2: Pruebas de secuencias
         const pruebasSecuencias = [
-            { A: [400, 600, 500], B: [350, 450, 400, 500] },
-            { A: [300, 500, 400, 600], B: [250, 350, 450, 400, 500] },
-            { A: [700, 800, 750], B: [500, 600, 700, 450] },
-            { A: [200, 300, 400, 500, 600], B: [180, 280, 380, 480, 580, 680] },
-            { A: [450, 550, 600, 700], B: [800, 850, 750] },
-            { A: [500, 600, 700], B: [450, 550, 650, 600] },
-            { A: [300, 400, 500, 600, 700], B: [250, 350, 450, 500, 650, 700] },
-            { A: [600, 700, 800, 900], B: [550, 650, 750, 850, 950] },
-            { A: [400, 500, 600], B: [350, 450, 500, 550] },
-            { A: [450, 550, 650, 750], B: [600, 700, 800] }
+           { A: [400, 600, 500], B: [350, 450, 400, 500] },//seq1
+            { A: [300, 500, 400, 600], B: [250, 350, 450, 400, 500] },//seq2
+            { A: [700, 800, 750], B: [500, 600, 700, 450] },//seq3
+            { A: [200, 300, 400, 500, 600], B: [180, 280, 380, 480, 580, 680] },//seq4
+            { A: [450, 550, 600, 700], B: [800, 850, 750] },//seq5
+            { A: [500, 600, 700], B: [450, 550, 650, 600] },//seq6
+            { A: [300, 400, 500, 600, 700], B: [250, 350, 450, 500, 650, 700] },//seq7
+            { A: [600, 700, 800, 900], B: [550, 650, 750, 850, 950] },//seq8
+            { A: [400, 500, 600], B: [350, 450, 500, 550] },//seq9
+            { A: [450, 550, 650, 750], B: [600, 700, 800] }//seq10
         ];
 
         // Parte 3: Pruebas de la línea más larga
@@ -299,18 +332,20 @@
 
             playing = true;
             let startTime = audioCtx.currentTime;
+            let delay = 0.1; // Espacio entre cada tono en segundos
+
             tonos.forEach((duracion, index) => {
                 let osc = audioCtx.createOscillator();
-                osc.frequency.setValueAtTime(frecuenciaBase, startTime + index * (duracion / 1000 + 0.1));
+                osc.frequency.setValueAtTime(frecuenciaBase, startTime + index * delay);
                 osc.type = "sine";
                 osc.connect(audioCtx.destination);
-                osc.start(startTime + index * (duracion / 1000 + 0.1));
-                osc.stop(startTime + index * (duracion / 1000 + 0.1) + duracion / 1000);
+                osc.start(startTime + index * delay);
+                osc.stop(startTime + index * delay + duracion / 1000);
             });
 
             setTimeout(() => {
                 playing = false;
-            }, tonos.reduce((a, b) => a + b, 0) + (tonos.length - 1) * 100);
+            }, tonos.reduce((a, b) => a + b, 0) + (tonos.length - 1) * delay * 1000);
         }
 
         function crearPregunta(index, tonoA, tonoB) {
@@ -358,6 +393,7 @@
         function crearPreguntaLinea(index, largoA, largoB) {
             const anguloA = Math.random() * 45 - 22.5;
             const anguloB = Math.random() * 45 - 22.5;
+            const anchoContenedor = 300;  // Ancho del contenedor
 
             const div = document.createElement("fieldset");
             div.innerHTML = `
@@ -388,6 +424,7 @@
         function crearPreguntaSuma(index, sumA, sumB) {
             const anguloA = Math.random() * 45 - 22.5;
             const anguloB = Math.random() * 45 - 22.5;
+            const anchoContenedor = 300;  // Ancho del contenedor
 
             const div = document.createElement("fieldset");
             div.innerHTML = `
