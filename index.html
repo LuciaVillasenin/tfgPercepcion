@@ -172,6 +172,18 @@
                 <option value="prefiero_no_decir">Prefiero no decir</option>
             </select><br><br>
 
+            <label for="nivel_estudios">Nivel de estudios:</label>
+            <select id="nivel_estudios" name="nivel_estudios" required>
+                <option value="">Selecciona una opción</option>
+                <option value="sin_estudios">Sin estudios</option>
+                <option value="educacion_secundaria">Educación Secundaria</option>
+                <option value="bachillerato">Bachillerato</option>
+                <option value="ciclo_formativo_grado_medio">Ciclo Formativo de Grado Medio</option>
+                <option value="ciclo_formativo_grado_superior">Ciclo Formativo de Grado Superior</option>
+                <option value="universidad">Universidad</option>
+                <option value="master_doctorado">Máster/Doctorado</option>
+            </select><br><br>
+
             <label for="ocupacion">Ocupación:</label>
             <select id="ocupacion" name="ocupacion" required>
                 <option value="">Selecciona una opción</option>
@@ -263,11 +275,11 @@
             { A: 550, B: 575 }
         ];
 
-        // Parte 2: Pruebas de secuencias (Corregidas)
+        // Parte 2: Pruebas de secuencias (Corregida la secuencia 3b)
         const pruebasSecuencias = [
             { A: [400, 600, 500], B: [350, 450, 400, 500] },
             { A: [300, 500, 400, 600], B: [250, 350, 450, 400, 500] },
-            { A: [700, 800, 750], B: [500, 600, 700, 450] },
+            { A: [700, 800, 750], B: [500, 600, 700, 550] }, // Corregido para evitar solapamiento
             { A: [200, 300, 400, 500, 600], B: [180, 280, 380, 480, 580, 680] },
             { A: [450, 550, 600, 700], B: [800, 850, 750] },
             { A: [500, 600, 700], B: [450, 550, 650, 600] },
@@ -307,14 +319,14 @@
 
         let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         let playing = false;
-        let formSubmitted = false; // Variable para controlar si el formulario ya se envió
+        let formSubmitted = false;
 
         // Función para generar un solo tono
         function generarSonido(duracion, boton) {
             if (playing) return;
 
             playing = true;
-            boton.disabled = true; // Deshabilitar el botón
+            boton.disabled = true;
 
             let osc = audioCtx.createOscillator();
             osc.frequency.setValueAtTime(frecuenciaBase, audioCtx.currentTime);
@@ -325,7 +337,7 @@
             setTimeout(() => {
                 osc.stop();
                 playing = false;
-                boton.disabled = false; // Habilitar el botón después de la reproducción
+                boton.disabled = false;
             }, duracion);
         }
 
@@ -334,29 +346,28 @@
             if (playing) return;
 
             playing = true;
-            boton.disabled = true; // Deshabilitar el botón
+            boton.disabled = true;
 
             let startTime = audioCtx.currentTime;
             const intervalo = 0.3; // Intervalo de silencio entre tonos en segundos (300 ms)
 
             duraciones.forEach((duracion, index) => {
-                let tonoStartTime = startTime + index * (duracion / 1000 + intervalo); // Tiempo de inicio de cada tono
+                let tonoStartTime = startTime + index * (duracion / 1000 + intervalo);
 
                 let osc = audioCtx.createOscillator();
-                osc.frequency.setValueAtTime(440, tonoStartTime); // Frecuencia fija de 440 Hz
-                osc.type = "sine"; // Tipo de onda sinusoidal
+                osc.frequency.setValueAtTime(440, tonoStartTime);
+                osc.type = "sine";
                 osc.connect(audioCtx.destination);
                 osc.start(tonoStartTime);
-                osc.stop(tonoStartTime + duracion / 1000); // Convertir duración a segundos
-                osc.onended = () => osc.disconnect(); // Desconectar el oscilador después de detenerse
+                osc.stop(tonoStartTime + duracion / 1000);
+                osc.onended = () => osc.disconnect();
             });
 
-            // Tiempo total de la secuencia
             let totalDuration = duraciones.reduce((sum, duracion) => sum + duracion / 1000, 0) + (duraciones.length - 1) * intervalo;
             setTimeout(() => {
                 playing = false;
-                boton.disabled = false; // Habilitar el botón después de la reproducción
-            }, totalDuration * 1000); // Convertir a milisegundos
+                boton.disabled = false;
+            }, totalDuration * 1000);
         }
 
         // Función para mostrar una línea en el modal
@@ -493,12 +504,12 @@
         // Impedir el envío múltiple del formulario
         document.getElementById('cuestionario').addEventListener('submit', function(event) {
             if (formSubmitted) {
-                event.preventDefault(); // Evita el envío si ya se ha enviado antes
+                event.preventDefault();
                 alert('Este formulario ya ha sido enviado. Gracias.');
             } else {
-                formSubmitted = true; // Marca el formulario como enviado
-                document.getElementById('submitBtn').disabled = true; // Deshabilita el botón de envío
-                document.getElementById('submitBtn').innerText = 'Enviando...'; // Cambia el texto del botón
+                formSubmitted = true;
+                document.getElementById('submitBtn').disabled = true;
+                document.getElementById('submitBtn').innerText = 'Enviando...';
             }
         });
     </script>
