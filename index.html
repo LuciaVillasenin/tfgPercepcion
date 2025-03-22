@@ -310,7 +310,7 @@
             const intervalo = 0.3; // Intervalo de silencio entre tonos en segundos (300 ms)
         
             duraciones.forEach((duracion, index) => {
-                let tonoStartTime = startTime + index * (duracion / 1000 + intervalo); // Tiempo de inicio de cada tono
+                let tonoStartTime = startTime + index * (intervalo); // Tiempo de inicio de cada tono
         
                 let osc = audioCtx.createOscillator();
                 osc.frequency.setValueAtTime(440, tonoStartTime); // Frecuencia fija de 440 Hz
@@ -327,7 +327,6 @@
                 playing = false;
             }, totalDuration * 1000); // Convertir a milisegundos
         }
-
         function crearPregunta(index, tonoA, tonoB) {
             const div = document.createElement("fieldset");
             div.innerHTML = `
