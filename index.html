@@ -303,21 +303,22 @@
         }
 
         function generarSecuencia(tonos) {
-         if (playing) return;
-
+            if (playing) return;
+        
             playing = true;
             let startTime = audioCtx.currentTime;
             let delay = 0.15; // Aumentar el delay para evitar solapamiento
-
+        
             tonos.forEach((duracion, index) => {
                 let osc = audioCtx.createOscillator();
-                osc.frequency.setValueAtTime(frecuenciaBase, startTime + index * delay);
+                osc.frequency.setValueAtTime(440, startTime + index * delay);
                 osc.type = "sine";
                 osc.connect(audioCtx.destination);
                 osc.start(startTime + index * delay);
                 osc.stop(startTime + index * delay + duracion / 1000);
+                osc.onended = () => osc.disconnect(); // Desconectar el oscilador después de detenerse
             });
-
+        
             setTimeout(() => {
                 playing = false;
             }, tonos.reduce((a, b) => a + b, 0) + (tonos.length - 1) * delay * 1000);
