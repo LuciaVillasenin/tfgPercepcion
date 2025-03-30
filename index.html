@@ -372,8 +372,7 @@
 
         // Función para mostrar una línea en el modal
         function mostrarLinea(largo, titulo) {
-            const contenido = `
-                <h3>${titulo}</h3>
+            let contenido = ` `;              
                 <div class="linea-container">
                     <div class="linea" style="width: ${largo}px;"></div>
                 </div>
@@ -383,7 +382,7 @@
 
         // Función para mostrar una suma de líneas en el modal
         function mostrarSuma(segmentos, titulo) {
-            let contenido = `<h3>${titulo}</h3>`;
+            let contenido = ` `;
             segmentos.forEach((largo, index) => {
                 contenido += `
                     <div class="linea-container">
