@@ -275,20 +275,20 @@
             { A: 900, B: 1100 }   // 0.9, 1.1 (22.2% diferencia, A < B, Corto)
         ];
 
-        // Parte 2: Pruebas de secuencias (Corregida la secuencia 3b)
+        // Parte 2: Pruebas de secuencias (Corregida la secuencia 3b)   
         const pruebasSecuencias = [
             { A: [800, 1000, 1200], B: [900, 1000, 1000] },  // A = B (Total A: 3000ms, Total B: 2900ms)
-            { A: [800, 1000, 750], B: [700, 750, 800] },     // A > B (Total A: 2550ms, Total B: 2250ms)
+            { A: [800, 900, 1000], B: [700, 750, 800] },     // A > B (Total A: 2700ms, Total B: 2250ms)
             { A: [700, 700, 600], B: [750, 750, 800] },     // A < B (Total A: 2000ms, Total B: 2300ms)
             { A: [450, 500, 400], B: [400, 450, 450] },     // A > B (Total A: 1350ms, Total B: 1300ms)
             { A: [1000, 1100, 1200], B: [900, 1000, 1100] }, // A > B (Total A: 3300ms, Total B: 3000ms)
             { A: [600, 1000, 1100], B: [900, 1000, 800] },  // A = B (Total A: 2700ms, Total B: 2700ms)
-            { A: [600, 1200, 900], B: [900, 1100, 1000] },  // A > B (Total A: 2700ms, Total B: 3000ms)
+            { A: [600, 900, 1000], B: [900, 1100, 1000] },  // A > B (Total A: 2500ms, Total B: 3000ms)
             { A: [1500, 1400, 1300], B: [1300, 1300, 1400] }, // A < B (Total A: 4200ms, Total B: 4000ms)
             { A: [900, 1000, 1100], B: [1000, 1100, 1200] }, // A < B (Total A: 3000ms, Total B: 3300ms)
             { A: [500, 600, 700], B: [400, 500, 650] }      // A > B (Total A: 1800ms, Total B: 1550ms)
         ];
-
+ 
         // Parte 3: Pruebas de la línea más larga
         const pruebasLineas = [
             { A: 200, B: 250 },
