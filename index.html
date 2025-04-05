@@ -76,15 +76,13 @@
         .modal {
             display: none;
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background-color: white;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             z-index: 1000;
+            overflow: auto;
         }
         .modal-overlay {
             display: none;
@@ -97,20 +95,35 @@
             z-index: 999;
         }
         .linea-container {
-            height: 100px;
-            width: 300px;
-            margin-bottom: 20px;
             position: relative;
-            overflow: hidden;
+            width: 100%;
+            height: 80vh;
+            margin: 20px 0;
+            background-color: #fff;
         }
         .linea {
-            display: inline-block;
+            position: absolute;
             height: 2px;
             background-color: #000;
-            position: absolute;
-            top: 50%;
-            left: 0;
             transform-origin: left center;
+        }
+        .modal-content {
+            padding: 20px;
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .modal-close {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1001;
         }
         @media (max-width: 600px) {
             body {
@@ -118,9 +131,6 @@
             }
             fieldset {
                 padding: 10px;
-            }
-            .linea-container {
-                width: 100%;
             }
             .prueba-container {
                 flex-direction: column;
@@ -252,8 +262,8 @@
 
     <!-- Modal para mostrar segmentos -->
     <div id="modal" class="modal">
-        <div id="modal-content"></div>
-        <button onclick="cerrarModal()">Cerrar</button>
+        <button class="modal-close" onclick="cerrarModal()">✕</button>
+        <div id="modal-content" class="modal-content"></div>
     </div>
     <div id="modal-overlay" class="modal-overlay"></div>
 
@@ -317,6 +327,72 @@
             { A: [90, 50], B: [40, 40, 40] }
         ];
 
+        // Configuraciones visuales FIJAS para cada prueba
+        const configVisual = {
+            // Parte 3: Líneas individuales (10 pruebas)
+            linea_0: { top: 30, left: 20, angulo: 5 },
+            linea_1: { top: 70, left: 40, angulo: -8 },
+            linea_2: { top: 50, left: 60, angulo: 12 },
+            linea_3: { top: 25, left: 80, angulo: -3 },
+            linea_4: { top: 65, left: 30, angulo: 7 },
+            linea_5: { top: 45, left: 50, angulo: 0 },
+            linea_6: { top: 75, left: 70, angulo: -10 },
+            linea_7: { top: 35, left: 10, angulo: 4 },
+            linea_8: { top: 55, left: 90, angulo: -6 },
+            linea_9: { top: 85, left: 25, angulo: 9 },
+            
+            // Parte 4: Sumas de líneas (10 pruebas)
+            suma_0: [
+                { top: 20, left: 15, angulo: 3 },
+                { top: 40, left: 50, angulo: -5 }
+            ],
+            suma_1: [
+                { top: 60, left: 30, angulo: 7 },
+                { top: 30, left: 70, angulo: -2 },
+                { top: 50, left: 40, angulo: 4 }
+            ],
+            suma_2: [
+                { top: 25, left: 25, angulo: -1 },
+                { top: 45, left: 75, angulo: 6 },
+                { top: 65, left: 50, angulo: -3 }
+            ],
+            suma_3: [
+                { top: 35, left: 10, angulo: 2 },
+                { top: 55, left: 60, angulo: -4 },
+                { top: 75, left: 30, angulo: 5 }
+            ],
+            suma_4: [
+                { top: 40, left: 20, angulo: -2 },
+                { top: 60, left: 70, angulo: 3 },
+                { top: 80, left: 40, angulo: -6 }
+            ],
+            suma_5: [
+                { top: 30, left: 30, angulo: 1 },
+                { top: 50, left: 80, angulo: -7 },
+                { top: 70, left: 20, angulo: 4 }
+            ],
+            suma_6: [
+                { top: 45, left: 15, angulo: -3 },
+                { top: 65, left: 65, angulo: 5 },
+                { top: 85, left: 35, angulo: -2 }
+            ],
+            suma_7: [
+                { top: 20, left: 40, angulo: 4 },
+                { top: 40, left: 90, angulo: -5 },
+                { top: 60, left: 25, angulo: 1 }
+            ],
+            suma_8: [
+                { top: 25, left: 50, angulo: -4 },
+                { top: 45, left: 20, angulo: 2 },
+                { top: 65, left: 70, angulo: -3 }
+            ],
+            suma_9: [
+                { top: 35, left: 60, angulo: 3 },
+                { top: 55, left: 30, angulo: -1 },
+                { top: 75, left: 80, angulo: 5 }
+            ]
+        };
+
         let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         let playing = false;
         let formSubmitted = false;
@@ -370,27 +446,43 @@
             }, totalDuration * 1000);
         }
 
-        // Función para mostrar una línea en el modal
-        function mostrarLinea(largo, titulo) {
+        // Función para mostrar una línea con posición/ángulo FIJOS
+        function mostrarLinea(largo, titulo, index) {
+            const config = configVisual[`linea_${index}`];
             const contenido = `
                 <h3>${titulo}</h3>
                 <div class="linea-container">
-                    <div class="linea" style="width: ${largo}px;"></div>
+                    <div class="linea" 
+                         style="width: ${largo}px;
+                                top: ${config.top}%;
+                                left: ${config.left}%;
+                                transform: rotate(${config.angulo}deg);">
+                    </div>
                 </div>
             `;
             abrirModal(contenido);
         }
 
-        // Función para mostrar una suma de líneas en el modal
-        function mostrarSuma(segmentos, titulo) {
-            let contenido = `<h3>${titulo}</h3>`;
-            segmentos.forEach((largo, index) => {
-                contenido += `
-                    <div class="linea-container">
-                        <div class="linea" style="width: ${largo}px;"></div>
+        // Función para mostrar una suma de líneas con posiciones FIJAS
+        function mostrarSuma(segmentos, titulo, index) {
+            const configs = configVisual[`suma_${index}`];
+            let lineasHTML = '';
+            
+            segmentos.forEach((largo, i) => {
+                lineasHTML += `
+                    <div class="linea" 
+                         style="width: ${largo}px;
+                                top: ${configs[i].top}%;
+                                left: ${configs[i].left}%;
+                                transform: rotate(${configs[i].angulo}deg);">
                     </div>
                 `;
             });
+            
+            const contenido = `
+                <h3>${titulo}</h3>
+                <div class="linea-container">${lineasHTML}</div>
+            `;
             abrirModal(contenido);
         }
 
@@ -458,10 +550,10 @@
                 <legend><strong>Prueba ${index + 1}</strong></legend>
                 <div class="prueba-container">
                     <div>
-                        <button type="button" onclick="mostrarLinea(${largoA}, 'A')">Ver Línea A</button>
+                        <button type="button" onclick="mostrarLinea(${largoA}, 'A', ${index})">Ver Línea A</button>
                     </div>
                     <div>
-                        <button type="button" onclick="mostrarLinea(${largoB}, 'B')">Ver Línea B</button>
+                        <button type="button" onclick="mostrarLinea(${largoB}, 'B', ${index})">Ver Línea B</button>
                     </div>
                 </div>
                 <br>
@@ -480,10 +572,10 @@
                 <legend><strong>Prueba ${index + 1}</strong></legend>
                 <div class="prueba-container">
                     <div>
-                        <button type="button" onclick="mostrarSuma([${sumA}], 'A')">Ver Suma A</button>
+                        <button type="button" onclick="mostrarSuma([${sumA}], 'A', ${index})">Ver Suma A</button>
                     </div>
                     <div>
-                        <button type="button" onclick="mostrarSuma([${sumB}], 'B')">Ver Suma B</button>
+                        <button type="button" onclick="mostrarSuma([${sumB}], 'B', ${index})">Ver Suma B</button>
                     </div>
                 </div>
                 <br>
