@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cuestionario de Discriminación Auditiva y Visual</title>
     <style>
-        /* Estilos generales (conservados) */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             max-width: 800px;
@@ -14,9 +13,66 @@
             background-color: #f4f4f4;
             color: #333;
         }
-        /* ... [otros estilos conservados igual] ... */
-
-        /* Modales rediseñados */
+        h1, h2 {
+            color: #0056b3;
+            text-align: center;
+        }
+        section {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        fieldset {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        legend {
+            font-weight: bold;
+            color: #0056b3;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .feedback {
+            margin-top: 10px;
+            color: green;
+            font-weight: bold;
+        }
+        #cuestionario button[type="submit"] {
+            display: block;
+            margin: 20px auto;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background-color: #28a745;
+        }
+        #cuestionario button[type="submit"]:hover {
+            background-color: #1e7e34;
+        }
+        .prueba-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+        }
         .modal {
             display: none;
             position: fixed;
@@ -31,9 +87,32 @@
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0,0,0,0.3);
             z-index: 1000;
-            overflow: hidden; /* Elimina scroll */
+            overflow: hidden;
         }
-
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        .linea-container {
+            width: 100%;
+            height: auto;
+            max-height: 60vh;
+            aspect-ratio: 1.5;
+            position: relative;
+            margin: 0 auto;
+        }
+        .linea {
+            position: absolute;
+            height: 2px;
+            background-color: #000;
+            transform-origin: left center;
+        }
         .modal-content {
             padding: 50px 20px 20px;
             height: calc(100% - 70px);
@@ -42,17 +121,6 @@
             align-items: center;
             justify-content: center;
         }
-
-        .linea-container {
-            width: 100%;
-            height: auto;
-            max-height: 60vh;
-            aspect-ratio: 1.5; /* Relación de aspecto fija */
-            position: relative;
-            margin: 0 auto;
-        }
-
-        /* Botón de cierre mejorado */
         .modal-close {
             position: absolute;
             top: 15px;
@@ -65,8 +133,21 @@
             border: none;
             z-index: 1001;
         }
-
         @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            fieldset {
+                padding: 10px;
+            }
+            .prueba-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .prueba-container > div {
+                width: 100%;
+                margin-bottom: 10px;
+            }
             .modal {
                 width: 95vw;
                 height: 95vh;
@@ -79,15 +160,302 @@
     </style>
 </head>
 <body>
-    <!-- [Todo el contenido HTML previo se mantiene IGUAL] -->
+    <h1>Cuestionario de Discriminación Auditiva y Visual</h1>
+
+    <section>
+        <h2>Te doy la bienvenida a este cuestionario</h2>
+        <p>
+            La siguiente prueba forma parte de mi Trabajo de Fin de Grado que consiste en un estudio sobre percepción
+            auditiva y visual. El objetivo es evaluar tu capacidad para discriminar estímulos sonoros y visuales. Este
+            cuestionario es totalmente anónimo.
+        </p>
+        <p>
+            Para asegurar la validez de los resultados, es muy importante que realices este cuestionario COMPLETO una
+            sola vez. Repetir el cuestionario o hacerlo de forma incompleta afectará negativamente a la calidad de los
+            datos y, por lo tanto, a la validez de mi estudio. <strong>Se recomienda el uso de auriculares para su
+                realización. Puedes reproducir los sonidos e imágenes todas las veces que lo necesites.</strong>
+        </p>
+        <p>
+            Por favor, responde a todas las preguntas con atención y honestidad y si detectas algún error en el funcionamiento,
+            repórtamelo para que pueda arreglarlo a la mayor brevedad ¡Muchas gracias por tu ayuda!
+        </p>
+    </section>
+
+    <form id="cuestionario" action="https://formspree.io/f/mnnpnvyb" method="POST">
+        <h2>Datos Demográficos</h2>
+        <fieldset>
+            <legend>Información Personal</legend>
+
+            <label for="edad">Edad:</label>
+            <input type="number" id="edad" name="edad" required min="18" max="100"><br><br>
+
+            <label for="sexo">Sexo:</label>
+            <select id="sexo" name="sexo" required>
+                <option value="">Selecciona una opción</option>
+                <option value="masculino">Masculino</option>
+                <option value="femenino">Femenino</option>
+                <option value="otro">Otro</option>
+                <option value="prefiero_no_decir">Prefiero no decir</option>
+            </select><br><br>
+
+            <label for="nivel_estudios">Nivel de estudios:</label>
+            <select id="nivel_estudios" name="nivel_estudios" required>
+                <option value="">Selecciona una opción</option>
+                <option value="sin_estudios">Sin estudios</option>
+                <option value="educacion_secundaria">Educación Secundaria</option>
+                <option value="bachillerato">Bachillerato</option>
+                <option value="ciclo_formativo_grado_medio">Ciclo Formativo de Grado Medio</option>
+                <option value="ciclo_formativo_grado_superior">Ciclo Formativo de Grado Superior</option>
+                <option value="universidad">Universidad</option>
+                <option value="master_doctorado">Máster/Doctorado</option>
+            </select><br><br>
+
+            <label for="ocupacion">Ocupación:</label>
+            <select id="ocupacion" name="ocupacion" required>
+                <option value="">Selecciona una opción</option>
+                <option value="estudiante">Estudiante</option>
+                <option value="empleado">Empleado</option>
+                <option value="autonomo">Autónomo</option>
+                <option value="desempleado">Desempleado</option>
+                <option value="jubilado">Jubilado</option>
+                <option value="otro">Otro</option>
+            </select><br><br>
+
+            <label for="lateralidad">Lateralidad:</label>
+            <select id="lateralidad" name="lateralidad" required>
+                <option value="">Selecciona una opción</option>
+                <option value="diestro">Diestro</option>
+                <option value="zurdo">Zurdo</option>
+                <option value="ambidiestro">Ambidiestro</option>
+            </select><br><br>
+
+            <label for="problemas_visuales">¿Tienes problemas visuales?</label>
+            <select id="problemas_visuales" name="problemas_visuales" required>
+                <option value="">Selecciona una opción</option>
+                <option value="si">Sí</option>
+                <option value="no">No</option>
+            </select><br><br>
+
+            <label for="problemas_auditivos">¿Tienes problemas auditivos?</label>
+            <select id="problemas_auditivos" name="problemas_auditivos" required>
+                <option value="">Selecciona una opción</option>
+                <option value="si">Sí</option>
+                <option value="no">No</option>
+            </select><br><br>
+
+            <label for="experiencia_musical">¿Tienes experiencia musical?</label>
+            <select id="experiencia_musical" name="experiencia_musical" required>
+                <option value="">Selecciona una opción</option>
+                <option value="ninguna">Ninguna</option>
+                <option value="aficionado">Aficionado</option>
+                <option value="semi_profesional">Semi-profesional</option>
+                <option value="profesional">Profesional</option>
+            </select>
+        </fieldset>
+
+        <!-- Parte 1: Discriminación Auditiva -->
+        <h2>Parte 1: Discriminación Auditiva</h2>
+        <p>En cada prueba, escucha los sonidos A y B y selecciona cuál es más largo o si son iguales.</p>
+        <div id="preguntas"></div>
+
+        <!-- Parte 2: Discriminación de Secuencias -->
+        <h2>Parte 2: Discriminación de Secuencias</h2>
+        <p>Escucha cada secuencia de sonidos y selecciona cuál es más larga.</p>
+        <div id="preguntasSecuencias"></div>
+
+        <!-- Parte 3: Discriminación Visual de la Línea Más Larga -->
+        <h2>Parte 3: Discriminación de la Línea Más Larga</h2>
+        <p>Selecciona cuál de las líneas es la más larga o si son iguales.</p>
+        <div id="preguntasLineas"></div>
+
+        <!-- Parte 4: Discriminación de la Suma de Líneas Más Larga -->
+        <h2>Parte 4: Discriminación de la Suma de Líneas Más Larga</h2>
+        <p>Selecciona cuál es la suma de líneas más larga o si son iguales.</p>
+        <div id="preguntasSumas"></div>
+
+        <button type="submit" id="submitBtn">Enviar Respuestas</button>
+    </form>
+
+    <!-- Modal para mostrar segmentos -->
+    <div id="modal" class="modal">
+        <div id="modal-content" class="modal-content"></div>
+    </div>
+    <div id="modal-overlay" class="modal-overlay"></div>
 
     <script>
-        // [Configuraciones de pruebas y audio previas se mantienen IGUAL]
+        // Configuración general
+        const frecuenciaBase = 440; // Hz
 
-        // Función para mostrar líneas (modificada para ajuste automático)
+        // Parte 1: Pruebas de tonos
+        const pruebasTonos = [ 
+            { A: 3150, B: 2835 }, // 3.15, 2.835 (10% diferencia, A > B, Largo)
+            { A: 450, B: 300 },   // 0.45, 0.30 (33.3% diferencia, A > B, Corto)
+            { A: 1500, B: 1650 }, // 1.5, 1.65 (10% diferencia, A < B, Largo)
+            { A: 1000, B: 800 },  // 1.0, 0.80 (20% diferencia, A > B, Corto)
+            { A: 2000, B: 2200 }, // 2.0, 2.2 (10% diferencia, A < B, Largo)
+            { A: 750, B: 750 },   // 0.75, 0.75 (0% diferencia, A = B, Corto)
+            { A: 500, B: 700 },   // 0.50, 0.70 (40% diferencia, A < B, Corto)
+            { A: 3000, B: 3300 }, // 3.0, 3.3 (10% diferencia, A < B, Largo)
+            { A: 3500, B: 3500 }, // 3.5, 3.5 (0% diferencia, A = B, Largo)
+            { A: 900, B: 1100 }   // 0.9, 1.1 (22.2% diferencia, A < B, Corto)
+        ];
+
+        // Parte 2: Pruebas de secuencias  
+        const pruebasSecuencias = [
+            { A: [800, 1000, 1200], B: [900, 1000, 1000] },
+            { A: [700, 1000, 1200], B: [700, 750, 800] },   
+            { A: [700, 700, 600], B: [750, 750, 800] },
+            { A: [450, 500, 400], B: [400, 450, 450] },
+            { A: [1000, 1100, 1200], B: [900, 1000, 1100] },
+            { A: [600, 1000, 1100], B: [800, 1000, 1000] },
+            { A: [500, 800, 1100], B: [900, 1100, 1000] },   
+            { A: [1500, 1400, 1300], B: [1300, 1300, 1400] },
+            { A: [900, 1000, 1100], B: [1000, 1100, 1200] },
+            { A: [500, 600, 700], B: [400, 500, 650] }
+        ];
+
+        // Parte 3: Pruebas de la línea más larga
+        const pruebasLineas = [
+            { A: 315, B: 283 },
+            { A: 45, B: 30 },
+            { A: 150, B: 165 },
+            { A: 100, B: 80 },
+            { A: 200, B: 220 },
+            { A: 75, B: 75 },
+            { A: 50, B: 70 },
+            { A: 300, B: 330 },
+            { A: 350, B: 350 },
+            { A: 90, B: 110 }
+        ];
+
+        // Parte 4: Pruebas de la suma de líneas más larga
+        const pruebasSumas = [
+            { A: [50, 100], B: [40, 80, 50] },
+            { A: [80, 120], B: [70, 90, 60] },
+            { A: [100, 120, 80], B: [50, 60, 90, 70] },
+            { A: [30, 50], B: [60, 80, 40] },
+            { A: [70, 70, 70], B: [50, 50, 50, 50] },
+            { A: [60, 90], B: [50, 70, 30] },
+            { A: [40, 60, 50], B: [70, 30, 40] },
+            { A: [80, 80], B: [60, 50, 30] },
+            { A: [50, 40, 30], B: [60, 60] },
+            { A: [90, 50], B: [40, 40, 40] }
+        ];
+
+        // Configuraciones visuales FIJAS para cada prueba
+        const configVisual = {
+            linea_0: { top: 30, left: 20, angulo: 5 },
+            linea_1: { top: 70, left: 40, angulo: -8 },
+            linea_2: { top: 50, left: 60, angulo: 12 },
+            linea_3: { top: 25, left: 80, angulo: -3 },
+            linea_4: { top: 65, left: 30, angulo: 7 },
+            linea_5: { top: 45, left: 50, angulo: 0 },
+            linea_6: { top: 75, left: 70, angulo: -10 },
+            linea_7: { top: 35, left: 10, angulo: 4 },
+            linea_8: { top: 55, left: 90, angulo: -6 },
+            linea_9: { top: 85, left: 25, angulo: 9 },
+            suma_0: [
+                { top: 20, left: 15, angulo: 3 },
+                { top: 40, left: 50, angulo: -5 }
+            ],
+            suma_1: [
+                { top: 60, left: 30, angulo: 7 },
+                { top: 30, left: 70, angulo: -2 },
+                { top: 50, left: 40, angulo: 4 }
+            ],
+            suma_2: [
+                { top: 25, left: 25, angulo: -1 },
+                { top: 45, left: 75, angulo: 6 },
+                { top: 65, left: 50, angulo: -3 }
+            ],
+            suma_3: [
+                { top: 35, left: 10, angulo: 2 },
+                { top: 55, left: 60, angulo: -4 },
+                { top: 75, left: 30, angulo: 5 }
+            ],
+            suma_4: [
+                { top: 40, left: 20, angulo: -2 },
+                { top: 60, left: 70, angulo: 3 },
+                { top: 80, left: 40, angulo: -6 }
+            ],
+            suma_5: [
+                { top: 30, left: 30, angulo: 1 },
+                { top: 50, left: 80, angulo: -7 },
+                { top: 70, left: 20, angulo: 4 }
+            ],
+            suma_6: [
+                { top: 45, left: 15, angulo: -3 },
+                { top: 65, left: 65, angulo: 5 },
+                { top: 85, left: 35, angulo: -2 }
+            ],
+            suma_7: [
+                { top: 20, left: 40, angulo: 4 },
+                { top: 40, left: 90, angulo: -5 },
+                { top: 60, left: 25, angulo: 1 }
+            ],
+            suma_8: [
+                { top: 25, left: 50, angulo: -4 },
+                { top: 45, left: 20, angulo: 2 },
+                { top: 65, left: 70, angulo: -3 }
+            ],
+            suma_9: [
+                { top: 35, left: 60, angulo: 3 },
+                { top: 55, left: 30, angulo: -1 },
+                { top: 75, left: 80, angulo: 5 }
+            ]
+        };
+
+        let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let playing = false;
+        let formSubmitted = false;
+
+        function generarSonido(duracion, boton) {
+            if (playing) return;
+            playing = true;
+            boton.disabled = true;
+
+            let osc = audioCtx.createOscillator();
+            osc.frequency.setValueAtTime(frecuenciaBase, audioCtx.currentTime);
+            osc.type = "sine";
+            osc.connect(audioCtx.destination);
+            osc.start();
+
+            setTimeout(() => {
+                osc.stop();
+                playing = false;
+                boton.disabled = false;
+            }, duracion);
+        }
+
+        function generarSecuencia(duraciones, boton) {
+            if (playing) return;
+            playing = true;
+            boton.disabled = true;
+
+            let startTime = audioCtx.currentTime;
+            const intervalo = 0.3;
+
+            duraciones.forEach((duracion, index) => {
+                let tonoStartTime = startTime + index * (duracion / 1000 + intervalo);
+                let osc = audioCtx.createOscillator();
+                osc.frequency.setValueAtTime(440, tonoStartTime);
+                osc.type = "sine";
+                osc.connect(audioCtx.destination);
+                osc.start(tonoStartTime);
+                osc.stop(tonoStartTime + duracion / 1000);
+                osc.onended = () => osc.disconnect();
+            });
+
+            let totalDuration = duraciones.reduce((sum, duracion) => sum + duracion / 1000, 0) + (duraciones.length - 1) * intervalo;
+            setTimeout(() => {
+                playing = false;
+                boton.disabled = false;
+            }, totalDuration * 1000);
+        }
+
         function mostrarLinea(largo, titulo, index) {
             const config = configVisual[`linea_${index}`];
-            const escala = Math.min(1, 600/largo); // Ajuste de escala para móviles
+            const escala = Math.min(1, 600/largo);
             
             const contenido = `
                 <button class="modal-close" onclick="cerrarModal()">×</button>
@@ -105,11 +473,10 @@
             abrirModal(contenido);
         }
 
-        // Función para mostrar sumas (modificada)
         function mostrarSuma(segmentos, titulo, index) {
             const configs = configVisual[`suma_${index}`];
             const maxLargo = Math.max(...segmentos);
-            const escala = Math.min(1, 500/maxLargo); // Ajuste proporcional
+            const escala = Math.min(1, 500/maxLargo);
             
             let lineasHTML = segmentos.map((largo, i) => `
                 <div class="linea" 
@@ -129,7 +496,118 @@
             abrirModal(contenido);
         }
 
-        // [Resto del código JavaScript se mantiene IGUAL]
+        function abrirModal(contenido) {
+            document.getElementById('modal-content').innerHTML = contenido;
+            document.getElementById('modal').style.display = 'block';
+            document.getElementById('modal-overlay').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('modal-overlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function crearPregunta(index, tonoA, tonoB) {
+            const div = document.createElement("fieldset");
+            div.innerHTML = `
+                <legend><strong>Prueba ${index + 1}</strong></legend>
+                <div class="prueba-container">
+                    <div>
+                        <button type="button" onclick="generarSonido(${tonoA}, this)">Reproducir Sonido A</button>
+                    </div>
+                    <div>
+                        <button type="button" onclick="generarSonido(${tonoB}, this)">Reproducir Sonido B</button>
+                    </div>
+                </div>
+                <br>
+                <label><input type="radio" name="prueba${index}" value="A" required> A es más largo</label><br>
+                <label><input type="radio" name="prueba${index}" value="B"> B es más largo</label><br>
+                <label><input type="radio" name="prueba${index}" value="Iguales"> Son iguales</label>
+                <div class="feedback" id="feedback${index}"></div>
+            `;
+            document.getElementById("preguntas").appendChild(div);
+        }
+
+        function crearPreguntaSecuencia(index, secuenciaA, secuenciaB) {
+            const div = document.createElement("fieldset");
+            div.innerHTML = `
+                <legend><strong>Prueba ${index + 1}</strong></legend>
+                <div class="prueba-container">
+                    <div>
+                        <button type="button" onclick="generarSecuencia([${secuenciaA}], this)">Reproducir Secuencia A</button>
+                    </div>
+                    <div>
+                        <button type="button" onclick="generarSecuencia([${secuenciaB}], this)">Reproducir Secuencia B</button>
+                    </div>
+                </div>
+                <br>
+                <label><input type="radio" name="pruebaSecuencia${index}" value="A" required> A es más larga</label><br>
+                <label><input type="radio" name="pruebaSecuencia${index}" value="B"> B es más larga</label><br>
+                <label><input type="radio" name="pruebaSecuencia${index}" value="Iguales"> Son iguales</label>
+                <div class="feedback" id="feedbackSecuencia${index}"></div>
+            `;
+            document.getElementById("preguntasSecuencias").appendChild(div);
+        }
+
+        function crearPreguntaLinea(index, largoA, largoB) {
+            const div = document.createElement("fieldset");
+            div.innerHTML = `
+                <legend><strong>Prueba ${index + 1}</strong></legend>
+                <div class="prueba-container">
+                    <div>
+                        <button type="button" onclick="mostrarLinea(${largoA}, 'A', ${index})">Ver Línea A</button>
+                    </div>
+                    <div>
+                        <button type="button" onclick="mostrarLinea(${largoB}, 'B', ${index})">Ver Línea B</button>
+                    </div>
+                </div>
+                <br>
+                <label><input type="radio" name="pruebaLinea${index}" value="A" required> A es más larga</label><br>
+                <label><input type="radio" name="pruebaLinea${index}" value="B"> B es más larga</label><br>
+                <label><input type="radio" name="pruebaLinea${index}" value="Iguales"> Son iguales</label>
+                <div class="feedback" id="feedbackLinea${index}"></div>
+            `;
+            document.getElementById("preguntasLineas").appendChild(div);
+        }
+
+        function crearPreguntaSuma(index, sumA, sumB) {
+            const div = document.createElement("fieldset");
+            div.innerHTML = `
+                <legend><strong>Prueba ${index + 1}</strong></legend>
+                <div class="prueba-container">
+                    <div>
+                        <button type="button" onclick="mostrarSuma([${sumA}], 'A', ${index})">Ver Suma A</button>
+                    </div>
+                    <div>
+                        <button type="button" onclick="mostrarSuma([${sumB}], 'B', ${index})">Ver Suma B</button>
+                    </div>
+                </div>
+                <br>
+                <label><input type="radio" name="pruebaSuma${index}" value="A" required> A es más larga</label><br>
+                <label><input type="radio" name="pruebaSuma${index}" value="B"> B es más larga</label><br>
+                <label><input type="radio" name="pruebaSuma${index}" value="Iguales"> Son iguales</label>
+                <div class="feedback" id="feedbackSuma${index}"></div>
+            `;
+            document.getElementById("preguntasSumas").appendChild(div);
+        }
+
+        pruebasTonos.forEach((p, index) => crearPregunta(index, p.A, p.B));
+        pruebasSecuencias.forEach((p, index) => crearPreguntaSecuencia(index, p.A, p.B));
+        pruebasLineas.forEach((p, index) => crearPreguntaLinea(index, p.A, p.B));
+        pruebasSumas.forEach((p, index) => crearPreguntaSuma(index, p.A, p.B));
+
+        document.getElementById('cuestionario').addEventListener('submit', function(event) {
+            if (formSubmitted) {
+                event.preventDefault();
+                alert('Este formulario ya ha sido enviado. Gracias.');
+            } else {
+                formSubmitted = true;
+                document.getElementById('submitBtn').disabled = true;
+                document.getElementById('submitBtn').innerText = 'Enviando...';
+            }
+        });
     </script>
 </body>
 </html>
