@@ -403,6 +403,7 @@
                 { top: 55, left: 30, angulo: -1 },
                 { top: 75, left: 80, angulo: 5 }
             ]
+ 
         };
 
         let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -473,28 +474,38 @@
             abrirModal(contenido);
         }
 
-        function mostrarSuma(segmentos, titulo, index) {
-            const configs = configVisual[`suma_${index}`];
-            const maxLargo = Math.max(...segmentos);
-            const escala = Math.min(1, 500/maxLargo);
-            
-            let lineasHTML = segmentos.map((largo, i) => `
+ 
+    function mostrarSuma(segmentos, titulo, index) {
+        const configKey = `suma_${index}`;
+        if (!configVisual[configKey] || !Array.isArray(configVisual[configKey])) {
+            console.error(`Configuración visual no encontrada para ${configKey}`);
+            return;
+        }
+    
+        const configs = configVisual[configKey];
+        const maxLargo = Math.max(...segmentos);
+        const escala = Math.min(1, 500/maxLargo);
+        
+        let lineasHTML = segmentos.map((largo, i) => {
+            const config = configs[i] || { top: 50, left: 50, angulo: 0 }; // Valores por defecto
+            return `
                 <div class="linea" 
                      style="width: ${largo}px;
-                            top: ${configs[i].top}%;
-                            left: ${configs[i].left}%;
-                            transform: rotate(${configs[i].angulo}deg) scale(${escala});
+                            top: ${config.top}%;
+                            left: ${config.left}%;
+                            transform: rotate(${config.angulo}deg) scale(${escala});
                             transform-origin: left center;">
                 </div>
-            `).join('');
-
-            const contenido = `
-                <button class="modal-close" onclick="cerrarModal()">×</button>
-                <h3 style="margin-bottom: 20px;">${titulo}</h3>
-                <div class="linea-container">${lineasHTML}</div>
             `;
-            abrirModal(contenido);
-        }
+        }).join('');
+    
+        const contenido = `
+            <button class="modal-close" onclick="cerrarModal()">×</button>
+            <h3 style="margin-bottom: 20px;">${index + 1}${titulo}</h3>
+            <div class="linea-container">${lineasHTML}</div>
+        `;
+        abrirModal(contenido);
+    }
 
         function abrirModal(contenido) {
             document.getElementById('modal-content').innerHTML = contenido;
@@ -571,7 +582,7 @@
             `;
             document.getElementById("preguntasLineas").appendChild(div);
         }
-
+ 
         function crearPreguntaSuma(index, sumA, sumB) {
             const div = document.createElement("fieldset");
             div.innerHTML = `
