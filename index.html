@@ -578,10 +578,10 @@
                 <legend><strong>Prueba ${index + 1}</strong></legend>
                 <div class="prueba-container">
                     <div>
-                        <button type="button" onclick="mostrarSuma([${sumA}], 'A', ${index})">Ver Suma A</button>
+                        <button type="button" onclick="mostrarSuma(${JSON.stringify(sumA)}, 'A', ${index})">Ver Suma A</button>
                     </div>
                     <div>
-                        <button type="button" onclick="mostrarSuma([${sumB}], 'B', ${index})">Ver Suma B</button>
+                        <button type="button" onclick="mostrarSuma(${JSON.stringify(sumB)}, 'B', ${index})">Ver Suma B</button>
                     </div>
                 </div>
                 <br>
@@ -592,7 +592,6 @@
             `;
             document.getElementById("preguntasSumas").appendChild(div);
         }
-
         pruebasTonos.forEach((p, index) => crearPregunta(index, p.A, p.B));
         pruebasSecuencias.forEach((p, index) => crearPreguntaSecuencia(index, p.A, p.B));
         pruebasLineas.forEach((p, index) => crearPreguntaLinea(index, p.A, p.B));
