@@ -79,13 +79,15 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            width: 90vw;
+            height: 90vh;
+            max-width: 800px;
+            max-height: 600px;
             background-color: white;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
             z-index: 1000;
-            max-width: 90%;
+            overflow: hidden;
         }
         .modal-overlay {
             display: none;
@@ -98,25 +100,38 @@
             z-index: 999;
         }
         .linea-container {
-            height: 100px;
             width: 100%;
-            margin: 20px 0;
+            height: auto;
+            max-height: 60vh;
+            aspect-ratio: 1.5;
             position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            margin: 0 auto;
         }
         .linea {
+            position: absolute;
             height: 2px;
             background-color: #000;
-            position: relative;
-            margin: 10px 0;
+            transform-origin: left center;
         }
-        .suma-container {
+        .modal-content {
+            padding: 50px 20px 20px;
+            height: calc(100% - 70px);
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 10px 0;
+            justify-content: center;
+        }
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #ff4444;
+            cursor: pointer;
+            background: none;
+            border: none;
+            z-index: 1001;
         }
         @media (max-width: 600px) {
             body {
@@ -132,6 +147,14 @@
             .prueba-container > div {
                 width: 100%;
                 margin-bottom: 10px;
+            }
+            .modal {
+                width: 95vw;
+                height: 95vh;
+                max-height: none;
+            }
+            .linea-container {
+                max-height: 70vh;
             }
         }
     </style>
@@ -255,8 +278,7 @@
 
     <!-- Modal para mostrar segmentos -->
     <div id="modal" class="modal">
-        <div id="modal-content"></div>
-        <button onclick="cerrarModal()">Cerrar</button>
+        <div id="modal-content" class="modal-content"></div>
     </div>
     <div id="modal-overlay" class="modal-overlay"></div>
 
@@ -320,14 +342,75 @@
             { A: [90, 50], B: [40, 40, 40] }
         ];
 
+        // Configuraciones visuales FIJAS para cada prueba
+        const configVisual = {
+            linea_0: { top: 30, left: 20, angulo: 5 },
+            linea_1: { top: 70, left: 40, angulo: -8 },
+            linea_2: { top: 50, left: 60, angulo: 12 },
+            linea_3: { top: 25, left: 80, angulo: -3 },
+            linea_4: { top: 65, left: 30, angulo: 7 },
+            linea_5: { top: 45, left: 50, angulo: 0 },
+            linea_6: { top: 75, left: 70, angulo: -10 },
+            linea_7: { top: 35, left: 10, angulo: 4 },
+            linea_8: { top: 55, left: 90, angulo: -6 },
+            linea_9: { top: 85, left: 25, angulo: 9 },
+            suma_0: [
+                { top: 20, left: 15, angulo: 3 },
+                { top: 40, left: 50, angulo: -5 }
+            ],
+            suma_1: [
+                { top: 60, left: 30, angulo: 7 },
+                { top: 30, left: 70, angulo: -2 },
+                { top: 50, left: 40, angulo: 4 }
+            ],
+            suma_2: [
+                { top: 25, left: 25, angulo: -1 },
+                { top: 45, left: 75, angulo: 6 },
+                { top: 65, left: 50, angulo: -3 }
+            ],
+            suma_3: [
+                { top: 35, left: 10, angulo: 2 },
+                { top: 55, left: 60, angulo: -4 },
+                { top: 75, left: 30, angulo: 5 }
+            ],
+            suma_4: [
+                { top: 40, left: 20, angulo: -2 },
+                { top: 60, left: 70, angulo: 3 },
+                { top: 80, left: 40, angulo: -6 }
+            ],
+            suma_5: [
+                { top: 30, left: 30, angulo: 1 },
+                { top: 50, left: 80, angulo: -7 },
+                { top: 70, left: 20, angulo: 4 }
+            ],
+            suma_6: [
+                { top: 45, left: 15, angulo: -3 },
+                { top: 65, left: 65, angulo: 5 },
+                { top: 85, left: 35, angulo: -2 }
+            ],
+            suma_7: [
+                { top: 20, left: 40, angulo: 4 },
+                { top: 40, left: 90, angulo: -5 },
+                { top: 60, left: 25, angulo: 1 }
+            ],
+            suma_8: [
+                { top: 25, left: 50, angulo: -4 },
+                { top: 45, left: 20, angulo: 2 },
+                { top: 65, left: 70, angulo: -3 }
+            ],
+            suma_9: [
+                { top: 35, left: 60, angulo: 3 },
+                { top: 55, left: 30, angulo: -1 },
+                { top: 75, left: 80, angulo: 5 }
+            ]
+        };
+
         let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         let playing = false;
         let formSubmitted = false;
 
-        // Función para generar un solo tono
         function generarSonido(duracion, boton) {
             if (playing) return;
-
             playing = true;
             boton.disabled = true;
 
@@ -344,19 +427,16 @@
             }, duracion);
         }
 
-        // Función para generar una secuencia de tonos
         function generarSecuencia(duraciones, boton) {
             if (playing) return;
-
             playing = true;
             boton.disabled = true;
 
             let startTime = audioCtx.currentTime;
-            const intervalo = 0.3; // Intervalo de silencio entre tonos en segundos (300 ms)
+            const intervalo = 0.3;
 
             duraciones.forEach((duracion, index) => {
                 let tonoStartTime = startTime + index * (duracion / 1000 + intervalo);
-
                 let osc = audioCtx.createOscillator();
                 osc.frequency.setValueAtTime(440, tonoStartTime);
                 osc.type = "sine";
@@ -373,45 +453,62 @@
             }, totalDuration * 1000);
         }
 
-        // Función para mostrar una línea en el modal
-        function mostrarLinea(largo, titulo) {
+        function mostrarLinea(largo, titulo, index) {
+            const config = configVisual[`linea_${index}`];
+            const escala = Math.min(1, 600/largo);
+            
             const contenido = `
-                <h3>${titulo}</h3>
+                <button class="modal-close" onclick="cerrarModal()">×</button>
+                <h3 style="margin-bottom: 20px;">${titulo}</h3>
                 <div class="linea-container">
-                    <div class="linea" style="width: ${largo}px; max-width: 90%;"></div>
+                    <div class="linea" 
+                         style="width: ${largo}px;
+                                top: ${config.top}%;
+                                left: ${config.left}%;
+                                transform: rotate(${config.angulo}deg) scale(${escala});
+                                transform-origin: left center;">
+                    </div>
                 </div>
             `;
             abrirModal(contenido);
         }
 
-        // Función para mostrar una suma de líneas en el modal
-        function mostrarSuma(segmentos, titulo) {
-            let contenido = `<h3>${titulo}</h3><div class="suma-container">`;
-            segmentos.forEach((largo, index) => {
-                contenido += `
-                    <div class="linea-container">
-                        <div class="linea" style="width: ${largo}px; max-width: 90%;"></div>
-                    </div>
-                `;
-            });
-            contenido += `</div>`;
+        function mostrarSuma(segmentos, titulo, index) {
+            const configs = configVisual[`suma_${index}`];
+            const maxLargo = Math.max(...segmentos);
+            const escala = Math.min(1, 500/maxLargo);
+            
+            let lineasHTML = segmentos.map((largo, i) => `
+                <div class="linea" 
+                     style="width: ${largo}px;
+                            top: ${configs[i].top}%;
+                            left: ${configs[i].left}%;
+                            transform: rotate(${configs[i].angulo}deg) scale(${escala});
+                            transform-origin: left center;">
+                </div>
+            `).join('');
+
+            const contenido = `
+                <button class="modal-close" onclick="cerrarModal()">×</button>
+                <h3 style="margin-bottom: 20px;">${titulo}</h3>
+                <div class="linea-container">${lineasHTML}</div>
+            `;
             abrirModal(contenido);
         }
 
-        // Función para abrir el modal
         function abrirModal(contenido) {
             document.getElementById('modal-content').innerHTML = contenido;
             document.getElementById('modal').style.display = 'block';
             document.getElementById('modal-overlay').style.display = 'block';
+            document.body.style.overflow = 'hidden';
         }
 
-        // Función para cerrar el modal
         function cerrarModal() {
             document.getElementById('modal').style.display = 'none';
             document.getElementById('modal-overlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
 
-        // Función para crear una pregunta de discriminación auditiva
         function crearPregunta(index, tonoA, tonoB) {
             const div = document.createElement("fieldset");
             div.innerHTML = `
@@ -433,7 +530,6 @@
             document.getElementById("preguntas").appendChild(div);
         }
 
-        // Función para crear una pregunta de secuencias
         function crearPreguntaSecuencia(index, secuenciaA, secuenciaB) {
             const div = document.createElement("fieldset");
             div.innerHTML = `
@@ -455,17 +551,16 @@
             document.getElementById("preguntasSecuencias").appendChild(div);
         }
 
-        // Función para crear una pregunta de líneas
         function crearPreguntaLinea(index, largoA, largoB) {
             const div = document.createElement("fieldset");
             div.innerHTML = `
                 <legend><strong>Prueba ${index + 1}</strong></legend>
                 <div class="prueba-container">
                     <div>
-                        <button type="button" onclick="mostrarLinea(${largoA}, 'A')">Ver Línea A</button>
+                        <button type="button" onclick="mostrarLinea(${largoA}, 'A', ${index})">Ver Línea A</button>
                     </div>
                     <div>
-                        <button type="button" onclick="mostrarLinea(${largoB}, 'B')">Ver Línea B</button>
+                        <button type="button" onclick="mostrarLinea(${largoB}, 'B', ${index})">Ver Línea B</button>
                     </div>
                 </div>
                 <br>
@@ -477,17 +572,16 @@
             document.getElementById("preguntasLineas").appendChild(div);
         }
 
-        // Función para crear una pregunta de sumas de líneas
         function crearPreguntaSuma(index, sumA, sumB) {
             const div = document.createElement("fieldset");
             div.innerHTML = `
                 <legend><strong>Prueba ${index + 1}</strong></legend>
                 <div class="prueba-container">
                     <div>
-                        <button type="button" onclick="mostrarSuma([${sumA}], 'A')">Ver Suma A</button>
+                        <button type="button" onclick="mostrarSuma([${sumA}], 'A', ${index})">Ver Suma A</button>
                     </div>
                     <div>
-                        <button type="button" onclick="mostrarSuma([${sumB}], 'B')">Ver Suma B</button>
+                        <button type="button" onclick="mostrarSuma([${sumB}], 'B', ${index})">Ver Suma B</button>
                     </div>
                 </div>
                 <br>
@@ -499,13 +593,11 @@
             document.getElementById("preguntasSumas").appendChild(div);
         }
 
-        // Generar todas las preguntas
         pruebasTonos.forEach((p, index) => crearPregunta(index, p.A, p.B));
         pruebasSecuencias.forEach((p, index) => crearPreguntaSecuencia(index, p.A, p.B));
         pruebasLineas.forEach((p, index) => crearPreguntaLinea(index, p.A, p.B));
         pruebasSumas.forEach((p, index) => crearPreguntaSuma(index, p.A, p.B));
 
-        // Impedir el envío múltiple del formulario
         document.getElementById('cuestionario').addEventListener('submit', function(event) {
             if (formSubmitted) {
                 event.preventDefault();
