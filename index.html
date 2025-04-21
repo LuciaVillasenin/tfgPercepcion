@@ -346,16 +346,46 @@
 
         // Configuraciones visuales FIJAS para cada prueba
         const configVisual = {
-            linea_0: { top: 30, left: 20, angulo: 5 },
-            linea_1: { top: 70, left: 40, angulo: -8 },
-            linea_2: { top: 50, left: 60, angulo: 12 },
-            linea_3: { top: 25, left: 80, angulo: -3 },
-            linea_4: { top: 65, left: 30, angulo: 7 },
-            linea_5: { top: 45, left: 50, angulo: 0 },
-            linea_6: { top: 75, left: 70, angulo: -10 },
-            linea_7: { top: 35, left: 10, angulo: 4 },
-            linea_8: { top: 55, left: 10, angulo: -6 },
-            linea_9: { top: 45, left: 25, angulo: 9 },
+            prueba_0: {
+                    A: { top: 30, left: 20, angulo: 5 },
+                    B: { top: 70, left: 40, angulo: -8 }
+                },
+                prueba_1: {
+                    A: { top: 50, left: 60, angulo: 12 },
+                    B: { top: 25, left: 80, angulo: -3 }
+                },
+                prueba_2: {
+                    A: { top: 65, left: 30, angulo: 7 },
+                    B: { top: 45, left: 50, angulo: 0 }
+                },
+                prueba_3: {
+                    A: { top: 75, left: 70, angulo: -10 },
+                    B: { top: 35, left: 10, angulo: 4 }
+                },
+                prueba_4: {
+                    A: { top: 55, left: 10, angulo: -6 },
+                    B: { top: 45, left: 25, angulo: 9 }
+                },
+                prueba_5: {
+                    A: { top: 40, left: 30, angulo: 3 },
+                    B: { top: 60, left: 70, angulo: -5 }
+                },
+                prueba_6: {
+                    A: { top: 30, left: 50, angulo: 7 },
+                    B: { top: 70, left: 20, angulo: -2 }
+                },
+                prueba_7: {
+                    A: { top: 50, left: 40, angulo: 4 },
+                    B: { top: 25, left: 80, angulo: -1 }
+                },
+                prueba_8: {
+                    A: { top: 65, left: 30, angulo: 6 },
+                    B: { top: 35, left: 70, angulo: -3 }
+                },
+                prueba_9: {
+                    A: { top: 45, left: 20, angulo: 2 },
+                    B: { top: 55, left: 60, angulo: -4 }
+                },
             suma_0: [
                 { top: 20, left: 15, angulo: 3 },
                 { top: 40, left: 50, angulo: -5 }
@@ -456,25 +486,26 @@
             }, totalDuration * 1000);
         }
 
-        function mostrarLinea(largo, titulo, index) {
-            const config = configVisual[`linea_${index}`];
-            const escala = Math.min(1, 600/largo);
-            
-            const contenido = `
-                <button class="modal-close" onclick="cerrarModal()">×</button>
-                <h3 style="margin-bottom: 20px;"></h3>
-                <div class="linea-container">
-                    <div class="linea" 
-                         style="width: ${largo}px;
-                                top: ${config.top}%;
-                                left: ${config.left}%;
-                                transform: rotate(${config.angulo}deg) scale(${escala});
-                                transform-origin: left center;">
-                    </div>
+    function mostrarLinea(largo, titulo, index, tipo) {
+        const configKey = `prueba_${index}`;
+        const config = configVisual[configKey][tipo]; // tipo será 'A' o 'B'
+        const escala = Math.min(1, 600/largo);
+        
+        const contenido = `
+            <button class="modal-close" onclick="cerrarModal()">×</button>
+            <h3 style="margin-bottom: 20px;">Prueba ${index + 1} - Línea ${tipo}</h3>
+            <div class="linea-container">
+                <div class="linea" 
+                     style="width: ${largo}px;
+                            top: ${config.top}%;
+                            left: ${config.left}%;
+                            transform: rotate(${config.angulo}deg) scale(${escala});
+                            transform-origin: left center;">
                 </div>
-            `;
-            abrirModal(contenido);
-        }
+            </div>
+        `;
+        abrirModal(contenido);
+    }
 
  
     function mostrarSuma(segmentos, titulo, index) {
@@ -570,10 +601,10 @@
                 <legend><strong>Prueba ${index + 1}</strong></legend>
                 <div class="prueba-container">
                     <div>
-                        <button type="button" onclick="mostrarLinea(${largoA}, 'A', ${index})">Ver Línea A</button>
+                        <button type="button" onclick="mostrarLinea(${largoA}, 'A', ${index}, 'A')">Ver Línea A</button>
                     </div>
                     <div>
-                        <button type="button" onclick="mostrarLinea(${largoB}, 'B', ${index})">Ver Línea B</button>
+                        <button type="button" onclick="mostrarLinea(${largoB}, 'B', ${index}, 'B')">Ver Línea B</button>
                     </div>
                 </div>
                 <br>
