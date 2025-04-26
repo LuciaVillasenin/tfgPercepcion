@@ -461,31 +461,36 @@
             }, duracion);
         }
 
-        function generarSecuencia(duraciones, boton) {
-            if (playing) return;
-            playing = true;
-            boton.disabled = true;
+function generarSecuencia(duraciones, boton) {
+    if (playing) return;
+    playing = true;
+    boton.disabled = true;
 
-            let startTime = audioCtx.currentTime;
-            const intervalo = 0.3;
+    let startTime = audioCtx.currentTime;
+    let currentTime = startTime;  // Inicializa el tiempo actual
+    const intervalo = 0.3;  // El intervalo entre tonos
 
-            duraciones.forEach((duracion, index) => {
-                let tonoStartTime = startTime + index * (duracion / 1000 + intervalo);
-                let osc = audioCtx.createOscillator();
-                osc.frequency.setValueAtTime(440, tonoStartTime);
-                osc.type = "sine";
-                osc.connect(audioCtx.destination);
-                osc.start(tonoStartTime);
-                osc.stop(tonoStartTime + duracion / 1000);
-                osc.onended = () => osc.disconnect();
-            });
+    duraciones.forEach((duracion, index) => {
+        let tonoStartTime = currentTime;  // El tiempo de inicio del tono actual
+        let osc = audioCtx.createOscillator();
+        osc.frequency.setValueAtTime(440, tonoStartTime);  // Establece la frecuencia
+        osc.type = "sine";
+        osc.connect(audioCtx.destination);
+        osc.start(tonoStartTime);  // Reproduce el tono
+        osc.stop(tonoStartTime + duracion / 1000);  // Detiene el tono después de la duración
+        osc.onended = () => osc.disconnect();
 
-            let totalDuration = duraciones.reduce((sum, duracion) => sum + duracion / 1000, 0) + (duraciones.length - 1) * intervalo;
-            setTimeout(() => {
-                playing = false;
-                boton.disabled = false;
-            }, totalDuration * 1000);
-        }
+        // Actualiza el tiempo actual para el próximo tono
+        currentTime = tonoStartTime + duracion / 1000 + intervalo;  // Añadir intervalo y duración del tono
+
+    });
+
+    let totalDuration = duraciones.reduce((sum, duracion) => sum + duracion / 1000, 0) + (duraciones.length - 1) * intervalo;
+    setTimeout(() => {
+        playing = false;
+        boton.disabled = false;
+    }, totalDuration * 1000);
+}
 
     function mostrarLinea(largo, titulo, index, tipo) {
         const configKey = `prueba_${index}`;
