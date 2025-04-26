@@ -645,15 +645,19 @@ function generarSecuencia(duraciones, boton) {
         pruebasLineas.forEach((p, index) => crearPreguntaLinea(index, p.A, p.B));
         pruebasSumas.forEach((p, index) => crearPreguntaSuma(index, p.A, p.B));
 
+
+
         document.getElementById('cuestionario').addEventListener('submit', function(event) {
-            if (formSubmitted) {
-                event.preventDefault();
-                alert('Este formulario ya ha sido enviado. Gracias.');
-            } else {
-                formSubmitted = true;
-                document.getElementById('submitBtn').disabled = true;
-                document.getElementById('submitBtn').innerText = 'Enviando...';
+
+            // Guardar las respuestas en localStorage
+            const respuestas = {};
+            const formData = new FormData(this);
+            for (const [key, value] of formData.entries()) {
+                respuestas[key] = value;
             }
+            localStorage.setItem('respuestasCuestionario', JSON.stringify(respuestas));
+             document.getElementById('submitBtn').disabled = true;
+            document.getElementById('submitBtn').innerText = 'Enviando...';
         });
     </script>
 </body>
