@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gracias por participar</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1, h2 {
+            color: #0056b3;
+            text-align: center;
+        }
+        #resultados {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        .acierto {
+            color: green;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>¡Gracias por participar!</h1>
+    <p>Tus respuestas han sido enviadas correctamente.</p>
+
+    <div id="resultados">
+        <h2>Tus Resultados</h2>
+        <div id="resultados-auditiva"></div>
+        <div id="resultados-secuencias"></div>
+        <div id="resultados-lineas"></div>
+        <div id="resultados-sumas"></div>
+    </div>
+
+    <script>
+        function mostrarResultados() {
+            const respuestasGuardadas = localStorage.getItem('respuestasCuestionario');
+            if (respuestasGuardadas) {
+                const respuestasUsuario = JSON.parse(respuestasGuardadas);
+                const resultadosDiv = document.getElementById('resultados');
+                const resultadosAuditivaDiv = document.getElementById('resultados-auditiva');
+                const resultadosSecuenciasDiv = document.getElementById('resultados-secuencias');
+                const resultadosLineasDiv = document.getElementById('resultados-lineas');
+                const resultadosSumasDiv = document.getElementById('resultados-sumas');
+
+                // **PASO 2: Define aquí la plantilla de respuestas correctas**
+                const respuestasCorrectas = {
+                    // Discriminación del sonido más largo
+                    prueba0: 'A > B',
+                    prueba1: 'A > B',
+                    prueba2: 'A < B',
+                    prueba3: 'A > B',
+                    prueba4: 'A < B',
+                    prueba5: 'A = B',
+                    prueba6: 'A < B',
+                    prueba7: 'A < B',
+                    prueba8: 'A = B',
+                    prueba9: 'A < B',
+
+                    // Discriminación de la secuencia de sonidos más larga
+                    pruebaSecuencia0: 'A > B',
+                    pruebaSecuencia1: 'A > B',
+                    pruebaSecuencia2: 'A > B',
+                    pruebaSecuencia3: 'A < B',
+                    pruebaSecuencia4: 'A = B',
+                    pruebaSecuencia5: 'A = B',
+                    pruebaSecuencia6: 'A > B',
+                    pruebaSecuencia7: 'A > B',
+                    pruebaSecuencia8: 'A < B',
+                    pruebaSecuencia9: 'A < B',
+
+                    // Discriminación del segmento más largo
+                    pruebaLinea0: 'A < B',
+                    pruebaLinea1: 'A > B',
+                    pruebaLinea2: 'A > B',
+                    pruebaLinea3: 'A = B',
+                    pruebaLinea4: 'A < B',
+                    pruebaLinea5: 'A > B',
+                    pruebaLinea6: 'A < B',
+                    pruebaLinea7: 'A = B',
+                    pruebaLinea8: 'A > B',
+                    pruebaLinea9: 'A < B',
+
+                    // Discriminación de la suma de segmentos más larga
+                    pruebaSuma0: 'A < B',
+                    pruebaSuma1: 'A = B',
+                    pruebaSuma2: 'A > B',
+                    pruebaSuma3: 'A < B',
+                    pruebaSuma4: 'A = B',
+                    pruebaSuma5: 'A > B',
+                    pruebaSuma6: 'A < B',
+                    pruebaSuma7: 'A > B',
+                    pruebaSuma8: 'A < B',
+                    pruebaSuma9: 'A > B'
+                };
+
+                let aciertosAuditiva = 0;
+                let erroresAuditiva = 0;
+                for (let i = 0; i < 10; i++) {
+                    const nombrePregunta = `prueba${i}`;
+                    if (respuestasUsuario[nombrePregunta] && respuestasUsuario[nombrePregunta] === respuestasCorrectas[nombrePregunta]) {
+                        aciertosAuditiva++;
+                    } else if (respuestasUsuario[nombrePregunta]) {
+                        erroresAuditiva++;
+                    }
+                }
+                resultadosAuditivaDiv.innerHTML = `<h3>Discriminación Auditiva</h3>Aciertos: <span class="acierto">${aciertosAuditiva}</span>, Errores: <span class="error">${erroresAuditiva}</span>`;
+
+                let aciertosSecuencias = 0;
+                let erroresSecuencias = 0;
+                for (let i = 0; i < 10; i++) {
+                    const nombrePregunta = `pruebaSecuencia${i}`;
+                    if (respuestasUsuario[nombrePregunta] && respuestasUsuario[nombrePregunta] === respuestasCorrectas[nombrePregunta]) {
+                        aciertosSecuencias++;
+                    } else if (respuestasUsuario[nombrePregunta]) {
+                        erroresSecuencias++;
+                    }
+                }
+                resultadosSecuenciasDiv.innerHTML = `<h3>Discriminación de Secuencias</h3>Aciertos: <span class="acierto">${aciertosSecuencias}</span>, Errores: <span class="error">${erroresSecuencias}</span>`;
+
+                let aciertosLineas = 0;
+                let erroresLineas = 0;
+                for (let i = 0; i < 10; i++) {
+                    const nombrePregunta = `pruebaLinea${i}`;
+                    if (respuestasUsuario[nombrePregunta] && respuestasUsuario[nombrePregunta] === respuestasCorrectas[nombrePregunta]) {
+                        aciertosLineas++;
+                    } else if (respuestasUsuario[nombrePregunta]) {
+                        erroresLineas++;
+                    }
+                }
+                resultadosLineasDiv.innerHTML = `<h3>Discriminación de la Línea Más Larga</h3>Aciertos: <span class="acierto">${aciertosLineas}</span>, Errores: <span class="error">${erroresLineas}</span>`;
+
+                let aciertosSumas = 0;
+                let erroresSumas = 0;
+                for (let i = 0; i < 10; i++) {
+                    const nombrePregunta = `pruebaSuma${i}`;
+                    if (respuestasUsuario[nombrePregunta] && respuestasUsuario[nombrePregunta] === respuestasCorrectas[nombrePregunta]) {
+                        aciertosSumas++;
+                    } else if (respuestasUsuario[nombrePregunta]) {
+                        erroresSumas++;
+                    }
+                }
+                resultadosSumasDiv.innerHTML = `<h3>Discriminación de la Suma de Líneas Más Larga</h3>Aciertos: <span class="acierto">${aciertosSumas}</span>, Errores: <span class="error">${erroresSumas}</span>`;
+
+                localStorage.removeItem('respuestasCuestionario'); // Limpiar el almacenamiento local
+            } else {
+                resultadosDiv.innerHTML = "<p>No se encontraron las respuestas.</p>";
+            }
+        }
+
+        window.onload = mostrarResultados;
+    </script>
+</body>
+</html>
