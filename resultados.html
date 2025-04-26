@@ -57,55 +57,54 @@
                 const resultadosLineasDiv = document.getElementById('resultados-lineas');
                 const resultadosSumasDiv = document.getElementById('resultados-sumas');
 
-                // **PASO 2: Define aquí la plantilla de respuestas correctas**
                 const respuestasCorrectas = {
                     // Discriminación del sonido más largo
-                    prueba0: 'A > B',
-                    prueba1: 'A > B',
-                    prueba2: 'A < B',
-                    prueba3: 'A > B',
-                    prueba4: 'A < B',
-                    prueba5: 'A = B',
-                    prueba6: 'A < B',
-                    prueba7: 'A < B',
-                    prueba8: 'A = B',
-                    prueba9: 'A < B',
-
+                    prueba0: 'A', // Si A > B
+                    prueba1: 'A', // Si A > B
+                    prueba2: 'B', // Si A < B
+                    prueba3: 'A', // Si A > B
+                    prueba4: 'B', // Si A < B
+                    prueba5: 'Iguales', // Si A = B
+                    prueba6: 'B', // Si A < B
+                    prueba7: 'B', // Si A < B
+                    prueba8: 'Iguales', // Si A = B
+                    prueba9: 'B', // Si A < B
+                
                     // Discriminación de la secuencia de sonidos más larga
-                    pruebaSecuencia0: 'A > B',
-                    pruebaSecuencia1: 'A > B',
-                    pruebaSecuencia2: 'A > B',
-                    pruebaSecuencia3: 'A < B',
-                    pruebaSecuencia4: 'A = B',
-                    pruebaSecuencia5: 'A = B',
-                    pruebaSecuencia6: 'A > B',
-                    pruebaSecuencia7: 'A > B',
-                    pruebaSecuencia8: 'A < B',
-                    pruebaSecuencia9: 'A < B',
-
+                    pruebaSecuencia0: 'A', // Si A > B
+                    pruebaSecuencia1: 'A', // Si A > B
+                    pruebaSecuencia2: 'A', // Si A > B
+                    pruebaSecuencia3: 'B', // Si A < B
+                    pruebaSecuencia4: 'Iguales', // Si A = B
+                    pruebaSecuencia5: 'Iguales', // Si A = B
+                    pruebaSecuencia6: 'A', // Si A > B
+                    pruebaSecuencia7: 'A', // Si A > B
+                    pruebaSecuencia8: 'B', // Si A < B
+                    pruebaSecuencia9: 'B', // Si A < B
+                
                     // Discriminación del segmento más largo
-                    pruebaLinea0: 'A < B',
-                    pruebaLinea1: 'A > B',
-                    pruebaLinea2: 'A > B',
-                    pruebaLinea3: 'A = B',
-                    pruebaLinea4: 'A < B',
-                    pruebaLinea5: 'A > B',
-                    pruebaLinea6: 'A < B',
-                    pruebaLinea7: 'A = B',
-                    pruebaLinea8: 'A > B',
-                    pruebaLinea9: 'A < B',
-
+                    pruebaLinea0: 'B', // Si A < B
+                    pruebaLinea1: 'A', // Si A > B
+                    pruebaLinea2: 'A', // Si A > B
+                    pruebaLinea3: 'Iguales', // Si A = B
+                    pruebaLinea4: 'B', // Si A < B
+                    pruebaLinea5: 'A', // Si A > B
+                    pruebaLinea6: 'B', // Si A < B
+                    pruebaLinea7: 'Iguales', // Si A = B
+                    pruebaLinea8: 'A', // Si A > B
+                    pruebaLinea9: 'B', // Si A < B
+                
                     // Discriminación de la suma de segmentos más larga
-                    pruebaSuma0: 'A < B',
-                    pruebaSuma1: 'A = B',
-                    pruebaSuma2: 'A > B',
-                    pruebaSuma3: 'A < B',
-                    pruebaSuma4: 'A = B',
-                    pruebaSuma5: 'A > B',
-                    pruebaSuma6: 'A < B',
-                    pruebaSuma7: 'A > B',
-                    pruebaSuma8: 'A < B',
-                    pruebaSuma9: 'A > B'
+                    pruebaSuma0: 'B', // Si A < B
+                    pruebaSuma1: 'Iguales', // Si A = B
+                    pruebaSuma2: 'A', // Si A > B
+                    pruebaSuma3: 'B', // Si A < B
+                    pruebaSuma4: 'Iguales', // Si A = B
+                    pruebaSuma5: 'A', // Si A > B
+                    pruebaSuma6: 'B', // Si A < B
+                    pruebaSuma7: 'A', // Si A > B
+                    pruebaSuma8: 'B', // Si A < B
+                    pruebaSuma9: 'A'  // Si A > B
                 };
 
                 let aciertosAuditiva = 0;
